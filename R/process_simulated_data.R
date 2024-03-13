@@ -1,3 +1,7 @@
+
+
+process_simulated_data <- function(){ #Nobody should use that, it was strictly for the creation of the package
+
 library(data.table)
 
 setwd("/home/PleioMap/Data/LHCMR/PleioVar_Scenarios/")
@@ -134,3 +138,6 @@ VAR2 = fread( "/home/PleioMap/Data/LHCMR/PleioVarNext2/Likelihood/VAR_LIGHT")
 
 usethis::use_data(VAR2)
 
+
+
+}
