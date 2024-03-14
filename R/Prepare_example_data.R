@@ -54,7 +54,7 @@ Prepare_example_data <- function(gzip = F){
 
 
   gc()
-  print("Files created")
+  message("Files created")
 
 
 }

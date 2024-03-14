@@ -18,7 +18,7 @@ Example_graph <- function(ListofTraits, Trait, TreshSelectionPvalues = 5e-08/len
   Somme$PvalPleioVar[Somme$PvalPleioVar < 1e-200] <- 1e-200 #Pour éviter des graphes bizarres
 
   Somme$PvalGWAS <- 2*pnorm(q=abs(X$Zscore/0.005), lower.tail=FALSE)
-  message("Pvalues from GWAS calculated from from ZScores")
+  message("Pvalues from GWAS calculated from ZScores")
   Somme$PvalGWAS[Somme$PvalGWAS < 1e-200] <- 1e-200
 
   #Faisons un graphe
