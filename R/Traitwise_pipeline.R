@@ -22,7 +22,7 @@ Traitwise_pipeline <- function(ListofTraits, ParametersTable, Index ,NbCores, gz
 
     # Synthese
     TRAIT <- X
-    print(paste0(TRAIT, "synthesis"))
+    print(paste0(TRAIT, " synthesis"))
 
     gc()
     TableBaseOEffect <- as_tibble(TableBase)
@@ -150,7 +150,7 @@ Traitwise_pipeline <- function(ListofTraits, ParametersTable, Index ,NbCores, gz
   Analyse <- function(X){
 
     TRAIT = X
-    print(paste0(TRAIT, "analysis"))
+    print(paste0(TRAIT, " analysis"))
 
     path <- paste0("Traitwise/", list.files("Traitwise/", pattern = paste0("^Pvalues_",TRAIT,".csv")))
 
@@ -162,7 +162,7 @@ Traitwise_pipeline <- function(ListofTraits, ParametersTable, Index ,NbCores, gz
 
     # We have to get all traits with a vertical effect on the trait of interest
     NTraits <- length(ListofTraits)
-    TreshVpleio <- 0.05/((NTraits * (NTraits-1) )/2)
+    TreshVpleio <- min(0.05,0.05/((NTraits * (NTraits-1) )/2))
 
     P1 <- ParametersTable[ParametersTable$X == TRAIT & ParametersTable$pval_ayx < TreshVpleio]
     P2 <- ParametersTable[ParametersTable$Y == TRAIT & ParametersTable$pval_axy < TreshVpleio]
@@ -265,11 +265,11 @@ Traitwise_pipeline <- function(ListofTraits, ParametersTable, Index ,NbCores, gz
 
 
 
-  mclapply(X = ListofTraits, FUN = SyntheseTraits, mc.cores = NbCores)
+  mclapply(X = ListofTraits, FUN = SyntheseTraits, mc.cores = 15)
 
 
 
 
-  mclapply(X = ListofTraits, FUN = Analyse, mc.cores = NbCores)
+  mclapply(X = ListofTraits, FUN = Analyse, mc.cores = 2)
 
 }
