@@ -53,7 +53,6 @@ Prepare_example_data <- function(gzip = F){
   write.table(Index, "Data/Index.csv", row.names = F, sep = ",")
 
 
-  rm(simulated_example_data)
   gc()
   print("Files created")
 
