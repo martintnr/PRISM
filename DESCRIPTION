@@ -4,7 +4,7 @@ Title: PleioVar: Pleiotropic labels for genetic Variants
 Version: 0.1.0
 Authors@R: person("Martin", "Tournaire", email = "martin.tournaire@u-paris.fr",
                   role = c("aut", "cre"))
-Description: PleioVar takes as input GWAS data and outputs pleiotropic labels for HapMap3 variants.
+Description: PleioVar takes as input GWAS data and outputs pleiotropic labels for genetic variants.
 Encoding: UTF-8
 LazyData: true
 Imports:
@@ -12,6 +12,7 @@ Imports:
     dplyr,
     stats,
     stringr,
-    parallel
+    parallel,
+    matrixStats
 Depends: 
     R (>= 2.10)

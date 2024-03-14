@@ -6,8 +6,8 @@
 <!-- badges: start -->
 <!-- badges: end -->
 
-PleioVar takes as input GWAS data and outputs pleiotropic labels for
-HapMap3 variants.
+PleioVar takes as input GWAS data and outputs pleiotropic labels for a
+list of variants.
 
 ## Installation
 
@@ -21,26 +21,24 @@ library(PleioVar)
 
 ## Example
 
-This is a basic example to obtain pleiotropic labels from simulated GWAS
-data. Parameters obtained from LHC-MR are already included.
+This is a basic example to obtain pleiotropic labels from GWAS summary
+statistics.  
+Parameters obtained from LHC-MR, LDscores of all variants, and simulated
+GWAS ZScores are already included.  
+You should specify the NbCores parameters if your computer can handle
+parallel computations.
 
 ``` r
 
-# If you want to process your own data with PleioVar, NewData needs to be True
-NewData = F
 
- pkgs = c("data.table", "dplyr", "devtools","stats", "stringr", "parallel")
+
+ pkgs = c("data.table", "dplyr", "devtools","stats", "stringr", "parallel", "matrixStats")
   pkgs.na = pkgs[!pkgs %in% installed.packages()[, "Package"]]
   
   if (length(pkgs.na) > 0) {
     install.packages(pkgs.na)
   }
   
-  
-  if(!"lhcMR" %in% installed.packages()[, "Package"] & NewData == T) {
-  devtools::install_github("LizaDarrous/lhcMR")
-  }
-
   if(!"PleioVar" %in% installed.packages()[, "Package"]) {
   devtools::install_github("martintnr/PleioVar")
   }
@@ -51,36 +49,30 @@ library(dplyr)
 library(stats)
 library(stringr)
 library(parallel)
-library(lhcMR)
+library(matrixStats)
 library(PleioVar)
 
-setwd("/home/martin/Script/PleioVar/test")
 
-Prepare_example_data()
+if(!file.exists("PleioVar_example/")){system("mkdir PleioVar_example")}
+setwd("PleioVar_example")
 
-PleioVar_main(ListofTraits, ParametersTable, NbCores = 1)
+Prepare_example_data(gzip = T)
+
+ParametersTable <- fread("Data/ParametersTable.csv", header = T, sep = ",")
+Index <- fread("Data/Index.csv", header = T, sep = ",")
+
+ListofTraits <- unique(c(ParametersTable$X, ParametersTable$Y))
+
+PleioVar_main(ListofTraits, ParametersTable, Index , NbCores = 1, gzip = T)
 ```
 
-What is special about using `README.Rmd` instead of just `README.md`?
-You can include R chunks like so:
+In the Results/ folder can be found, for each trait, a file with
+variants, p-values from PleioVar, and pleiotropy annotation.
 
 ``` r
-summary(cars)
-#>      speed           dist       
-#>  Min.   : 4.0   Min.   :  2.00  
-#>  1st Qu.:12.0   1st Qu.: 26.00  
-#>  Median :15.0   Median : 36.00  
-#>  Mean   :15.4   Mean   : 42.98  
-#>  3rd Qu.:19.0   3rd Qu.: 56.00  
-#>  Max.   :25.0   Max.   :120.00
+library(ggplot2)
+
+Graph <- Example_graph(Trait = "B4")
+
+print(Graph)
 ```
-
-You’ll still need to render `README.Rmd` regularly, to keep `README.md`
-up-to-date. `devtools::build_readme()` is handy for this.
-
-You can also embed plots, for example:
-
-<img src="man/figures/README-pressure-1.png" width="100%" />
-
-In that case, don’t forget to commit and push the resulting figure
-files, so they display on GitHub and CRAN.

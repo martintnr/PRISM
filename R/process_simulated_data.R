@@ -6,6 +6,7 @@ library(data.table)
 
 setwd("/home/PleioMap/Data/LHCMR/PleioVar_Scenarios/")
 
+VAR2 = fread( "/home/PleioMap/Data/LHCMR/PleioVarNext2/Likelihood/VAR_LIGHT")
 
 Traits <-rev(c("A", #Anciens traits triés
                "B1",
@@ -37,7 +38,10 @@ GetAllData <- function(A, ID = 56, replica = 1){
 
   Trait <- A
   exp <- fread(paste0("GWAS_Simulated/SimuDataFull_", ID,"_", Trait,"_", replica, ".csv.gz"))
-  return(exp[,c(1:5)])
+  exp$variant <- VAR2$variant[c(1:nrow(exp))]
+  exp <- exp[,c("variant", "bX")]
+  colnames(exp) <- c("variant", "Zscore")
+  return(exp)
 }
 listedata <- lapply(X = Traits, FUN = GetAllData)
 
@@ -110,7 +114,7 @@ GetAllParams <- function(A, ID = 56, replica = 1){
 
 
 
-  return(  c(list(Trait1, Trait2, iX, pX, h2X, tX, a, pvala, iY, pY, h2Y, tY, b, pvalb)))
+  return(  c(list(Trait1, Trait2, iX, pX, h2X, tX, a, pvala, nX, iY, pY, h2Y, tY, b, pvalb, nY)))
 
 }
 
@@ -118,8 +122,9 @@ listeparams <- lapply(X = c(1:nrow(Combinaison)), FUN = GetAllParams)
 
 
 tabparams <- as.data.frame(do.call(rbind, listeparams))
-colnames(tabparams) <- c("X", "Y", "iX", "piX", "h2X", "tX", "axy", "pval_axy",
-                         "iY", "piY", "h2Y", "tY", "ayx", "pval_ayx")
+tabparams$rhoXY <- 0
+colnames(tabparams) <- c("X", "Y", "iX", "piX", "h2X", "tX", "axy", "pval_axy","nX",
+                         "iY", "piY", "h2Y", "tY", "ayx", "pval_ayx", "nY", "rhoXY")
 
 tabparams$X <- unlist(tabparams$X)
 tabparams$Y <- unlist(tabparams$Y)
@@ -127,16 +132,20 @@ tabparams$Y <- unlist(tabparams$Y)
 tabparams[,3:ncol(tabparams)] <-  as.numeric(unlist(tabparams[,3:ncol(tabparams)]))
 
 simulated_example_data <- list(listedata, tabparams)
+
+setwd("/home/martin/Script/PleioVar")
+
 usethis::use_data(simulated_example_data)
 
 
 ##### Et l'index
 
 
+expemple <- fread(paste0("/home/PleioMap/Data/LHCMR/PleioVar_Scenarios/GWAS_Simulated/SimuDataFull_56_B4_1.csv.gz"))
+Index <- VAR2[1:100000, c("variant")]
+Index$LDscore <- expemple$ld
 
-VAR2 = fread( "/home/PleioMap/Data/LHCMR/PleioVarNext2/Likelihood/VAR_LIGHT")
-
-usethis::use_data(VAR2)
+usethis::use_data(Index)
 
 
 
