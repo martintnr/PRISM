@@ -26,22 +26,7 @@ PleioVar takes as input GWAS data and outputs pleiotropic labels for a list of v
 You can install the current version of PleioVar like so:
 
 ``` r
-#install.packages("devtools")
-devtools::install_github("martintnr/PleioVar")
-library(PleioVar)
-```
-
-## Example
-
-This is a basic example to obtain pleiotropic labels from GWAS summary statistics.  
-Parameters obtained from LHC-MR, LDscores of all variants, and simulated GWAS ZScores are already included.  
-You should specify the NbCores parameters if your computer can handle parallel computations.  
-
-```{r example, eval = FALSE}
-
-
-
- pkgs = c("data.table", "dplyr", "devtools","stats", "stringr", "parallel", "matrixStats")
+pkgs = c("data.table", "dplyr", "devtools","stats", "stringr", "parallel", "matrixStats")
   pkgs.na = pkgs[!pkgs %in% installed.packages()[, "Package"]]
   
   if (length(pkgs.na) > 0) {
@@ -51,8 +36,15 @@ You should specify the NbCores parameters if your computer can handle parallel c
   if(!"PleioVar" %in% installed.packages()[, "Package"]) {
   devtools::install_github("martintnr/PleioVar")
   }
+```
 
+## Example
 
+This is a basic example to obtain pleiotropic labels from GWAS summary statistics.  
+Parameters obtained from LHC-MR, LDscores of all variants, and simulated GWAS ZScores are already included.  
+You should specify the NbCores parameters if your computer can handle parallel computations.  
+
+```{r example, eval = FALSE}
 library(data.table)
 library(dplyr)
 library(stats)

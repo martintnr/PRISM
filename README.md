@@ -14,9 +14,16 @@ list of variants.
 You can install the current version of PleioVar like so:
 
 ``` r
-#install.packages("devtools")
-devtools::install_github("martintnr/PleioVar")
-library(PleioVar)
+pkgs = c("data.table", "dplyr", "devtools","stats", "stringr", "parallel", "matrixStats")
+  pkgs.na = pkgs[!pkgs %in% installed.packages()[, "Package"]]
+  
+  if (length(pkgs.na) > 0) {
+    install.packages(pkgs.na)
+  }
+  
+  if(!"PleioVar" %in% installed.packages()[, "Package"]) {
+  devtools::install_github("martintnr/PleioVar")
+  }
 ```
 
 ## Example
@@ -29,21 +36,6 @@ You should specify the NbCores parameters if your computer can handle
 parallel computations.
 
 ``` r
-
-
-
- pkgs = c("data.table", "dplyr", "devtools","stats", "stringr", "parallel", "matrixStats")
-  pkgs.na = pkgs[!pkgs %in% installed.packages()[, "Package"]]
-  
-  if (length(pkgs.na) > 0) {
-    install.packages(pkgs.na)
-  }
-  
-  if(!"PleioVar" %in% installed.packages()[, "Package"]) {
-  devtools::install_github("martintnr/PleioVar")
-  }
-
-
 library(data.table)
 library(dplyr)
 library(stats)
