@@ -7,6 +7,7 @@
 #' @param pU
 #' @param TreshSelectionPvalues
 #' @param NbCores
+#' @param keepIntermediateFiles
 #'
 #' @return
 #' @export
@@ -15,7 +16,8 @@
 #'
 #'
 PleioVar_main <- function(ListofTraits, ParametersTable, Index, NbCores = 1, gzip = F,
-                          pU = 1e-05, TreshSelectionPvalues = 5e-08/length(ListofTraits)){
+                          pU = 1e-05, TreshSelectionPvalues = 5e-08/length(ListofTraits),
+                          keepIntermediateFiles = F){
 
 
   if(!file.exists("Pairwise/")){system("mkdir Pairwise")}
@@ -31,16 +33,25 @@ PleioVar_main <- function(ListofTraits, ParametersTable, Index, NbCores = 1, gzi
 
 
   # PleioVar is separated in two parts
+  message("Executing pairwise pipeline...")
+
+
   Pairwise_pipeline(ListofTraits, ParametersTable, Index, NbCores, gzip, pU)
 
   message("Pairwise pipeline was successful")
+
+  message("Executing traitwise pipeline...")
 
   Traitwise_pipeline(ListofTraits, ParametersTable, Index, NbCores, gzip, pU, TreshSelectionPvalues)
 
   message("Traitwise pipeline was successful")
 
+  if(keepIntermediateFiles == F){
+    unlink("Pairwise/", recursive = TRUE) # will delete directory
+    unlink("Traitwise/", recursive = TRUE)
 
-
+    message("Intermediate files removed")
+  }
 
 
 

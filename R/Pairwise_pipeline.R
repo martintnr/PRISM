@@ -27,7 +27,7 @@ Pairwise_pipeline <- function(ListofTraits, ParametersTable, Index ,NbCores, gzi
       Trait1 <-  ParametersTable$X[A]
       Trait2 <-  ParametersTable$Y[A]
 
-      print(paste0("Paire ", Trait1, " ", Trait2))
+      print(paste0("Pair ", Trait1, " ", Trait2))
 
       path1 <- paste0("Data/", list.files("Data/", pattern = paste0("^",Trait1,".csv")))
       path2 <- paste0("Data/", list.files("Data/", pattern = paste0("^",Trait2,".csv")))

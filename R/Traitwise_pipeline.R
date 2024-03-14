@@ -22,7 +22,7 @@ Traitwise_pipeline <- function(ListofTraits, ParametersTable, Index ,NbCores, gz
 
     # Synthese
     TRAIT <- X
-    print(paste0(TRAIT, " synthesis"))
+    print(paste0("processing ", TRAIT))
 
     gc()
     TableBaseOEffect <- as_tibble(TableBase)
