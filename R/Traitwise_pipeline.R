@@ -150,6 +150,8 @@ Traitwise_pipeline <- function(ListofTraits, ParametersTable, Index ,NbCores, gz
   Analyse <- function(X){
 
     TRAIT = X
+    print(paste0(TRAIT, "analysis"))
+
     path <- paste0("Traitwise/", list.files("Traitwise/", pattern = paste0("^Pvalues_",TRAIT,".csv")))
 
     MSD <- fread(path)
