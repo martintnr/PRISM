@@ -55,7 +55,7 @@ library(PleioVar)
 
 
 if(!file.exists("PleioVar_example/")){system("mkdir PleioVar_example")}
-setwd("PleioVar_example")
+if(!grepl("PleioVar_example", getwd(), fixed = TRUE)){setwd("PleioVar_example")}
 
 Prepare_example_data(gzip = T)
 
