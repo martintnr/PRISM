@@ -149,6 +149,10 @@ Traitwise_pipeline <- function(ListofTraits, ParametersTable, Index ,NbCores, gz
 
   Analyse <- function(X){
 
+    flag = 0
+    flag <- flag + 1
+    print(flag)
+
     TRAIT = X
     print(paste0(TRAIT, " analysis"))
 
@@ -159,6 +163,10 @@ Traitwise_pipeline <- function(ListofTraits, ParametersTable, Index ,NbCores, gz
     TopVar <- MSD$variant[MSD$PX < TreshSelectionPvalues]
 
     ### Vertical
+
+    flag <- flag + 1
+    print(flag)
+
 
     # We have to get all traits with a vertical effect on the trait of interest
     NTraits <- length(ListofTraits)
@@ -171,12 +179,16 @@ Traitwise_pipeline <- function(ListofTraits, ParametersTable, Index ,NbCores, gz
     V_IDS <- NULL #If we don't enter the loop
 
     V_IDS_FULL <- c()
+    flag <- flag + 1
+    print(flag)
 
 
 
     for(VIND in TraitsVPleio){ #print(VIND)
       gc()
       print(VIND)
+      flag <- flag + 1
+      print(flag)
 
 
       if(file.exists(paste0("Pairwise/Likelihood_", TRAIT,"_", VIND,".csv.gz")) | file.exists(paste0("Pairwise/Likelihood_", TRAIT,"_", VIND,".csv"))){
@@ -191,6 +203,8 @@ Traitwise_pipeline <- function(ListofTraits, ParametersTable, Index ,NbCores, gz
 
 
 
+      flag <- flag + 1
+      print(flag)
 
       V_IDS <- data.frame( Omega_opti$INDEX)
 
@@ -198,10 +212,14 @@ Traitwise_pipeline <- function(ListofTraits, ParametersTable, Index ,NbCores, gz
       row.names(V_IDS ) <- NULL
 
       V_IDS <- V_IDS[V_IDS$Omega_opti.INDEX %in% TopVar,]
+      flag <- flag + 1
+      print(flag)
 
       V_IDS_FULL <- rbind(V_IDS_FULL, V_IDS)}
     }
 
+    flag <- flag + 1
+    print(flag)
 
     quelVert <- function(VAR){
       Bop <- toString(V_IDS_FULL$Trait[which(V_IDS_FULL$Omega_opti.INDEX == VAR)])
@@ -209,6 +227,8 @@ Traitwise_pipeline <- function(ListofTraits, ParametersTable, Index ,NbCores, gz
       Bop <- paste0("V:",Bop)
       return(Bop)
     }
+    flag <- flag + 1
+    print(flag)
 
     TopVar <- TopVar[TopVar %in% V_IDS_FULL$Omega_opti.INDEX]
     VertP <- mclapply(X = unique(TopVar), FUN = quelVert,  mc.cores = 1)
@@ -216,6 +236,8 @@ Traitwise_pipeline <- function(ListofTraits, ParametersTable, Index ,NbCores, gz
     VertP$variant <- unique(TopVar)
     if(nrow(VertP) > 0){colnames(VertP) <- c("VertP", "variant")}
 
+    flag <- flag + 1
+    print(flag)
 
     #### Effect on confounder prehension
     path <- paste0("Traitwise/", list.files("Traitwise/", pattern = paste0("Synthese_CatCharc_", TRAIT,".csv")))
@@ -223,6 +245,8 @@ Traitwise_pipeline <- function(ListofTraits, ParametersTable, Index ,NbCores, gz
     Conf <- fread(path, header = TRUE)
 
 
+    flag <- flag + 1
+    print(flag)
 
 
     MSD$Ori <- "No_supp_info"
@@ -241,25 +265,36 @@ Traitwise_pipeline <- function(ListofTraits, ParametersTable, Index ,NbCores, gz
 
 
 
+
     MSD$Ori[match(U_IDS,MSD$variant)]  <-  result$Upleio
     MSD$Ori2[MSD$variant %in% U_IDS] <- "Detected Network Pleiotropy"
 
   }
 
+    flag <- flag + 1
+    print(flag)
 
     MSD$Ori[match(VertP$variant,MSD$variant)]  <-  VertP$VertP
     #Vertical pleiotropy will be flagged as confounding pleiotropy (For another pair of traits, vertical is confounding)
     #So we input vertical last to overwrite confounding
 
+    flag <- flag + 1
+    print(flag)
 
 
     MSD$Ori2[MSD$variant %in% VertP$variant]  <- "Suspected Vertical Pleiotropy"
     MSD$Ori2[MSD$Ori == "No_supp_info"] <- "No supplementary info"
+    flag <- flag + 1
+    print(flag)
 
     MSD <- MSD[,c("variant", "PX", "Ori", "Ori2")]
     colnames(MSD) <- c("variant", "PvalPleioVar", "FullPleio","SynthPleio")
+    flag <- flag + 1
+    print(flag)
 
     write.table(MSD, file = paste0("Results/Pleio_", TRAIT,".csv"), sep=",", quote=F, row.names=F, col.names = T)
+    flag <- flag + 1
+    print(flag)
 
   }
 
