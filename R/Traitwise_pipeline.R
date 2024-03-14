@@ -265,11 +265,11 @@ Traitwise_pipeline <- function(ListofTraits, ParametersTable, Index ,NbCores, gz
 
 
 
-  mclapply(X = ListofTraits, FUN = SyntheseTraits, mc.cores = 15)
+  mclapply(X = ListofTraits, FUN = SyntheseTraits, mc.cores = NbCores)
 
 
 
 
-  mclapply(X = ListofTraits, FUN = Analyse, mc.cores = 2)
+  mclapply(X = ListofTraits, FUN = Analyse, mc.cores =  NbCores)
 
 }
