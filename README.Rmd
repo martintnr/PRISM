@@ -64,7 +64,7 @@ Index <- fread("Data/Index.csv", header = T, sep = ",")
 
 ListofTraits <- unique(c(ParametersTable$X, ParametersTable$Y))
 
-PleioVar_main(ListofTraits, ParametersTable, Index , NbCores = 10, gzip = T, keepIntermediateFiles = F)
+PleioVar_main(ListofTraits, ParametersTable, Index , NbCores = 1, gzip = T, keepIntermediateFiles = F)
 
 
 ```
