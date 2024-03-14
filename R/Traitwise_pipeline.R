@@ -172,8 +172,8 @@ Traitwise_pipeline <- function(ListofTraits, ParametersTable, Index ,NbCores, gz
     NTraits <- length(ListofTraits)
     TreshVpleio <- min(0.05,0.05/((NTraits * (NTraits-1) )/2))
 
-    P1 <- ParametersTable[ParametersTable$X == TRAIT & ParametersTable$pval_ayx < TreshVpleio]
-    P2 <- ParametersTable[ParametersTable$Y == TRAIT & ParametersTable$pval_axy < TreshVpleio]
+    P1 <- ParametersTable[ParametersTable$X == TRAIT & ParametersTable$pval_ayx < TreshVpleio,]
+    P2 <- ParametersTable[ParametersTable$Y == TRAIT & ParametersTable$pval_axy < TreshVpleio,]
 
     TraitsVPleio <-  c(P1$Y, P2$X)
     V_IDS <- NULL #If we don't enter the loop
