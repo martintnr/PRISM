@@ -1,6 +1,9 @@
-#' Title
+#' Prepare example data
 #'
-#' @param gzip
+#' `Prepare_example_data()` creates a Data/ folder in the current working directory
+#' and writes the dataset necessary to run the PleioVar example.
+#'
+#' @param gzip TRUE if you want the example data to be gzipped, FALSE otherwise
 #'
 #' @return
 #' @export

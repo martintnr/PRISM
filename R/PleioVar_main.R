@@ -1,13 +1,29 @@
-#' Title
+#' Main pipeline of PleioVar
+#' @description
+#' `PleioVar_main()` is the main function of PleioVar, that takes as input the list of traits to process,
+#' the LDscore index, and the LHC-MR parameters table.
 #'
-#' @param ListofTraits
-#' @param ParametersTable
-#' @param Index
-#' @param gzip
-#' @param pU
-#' @param TreshSelectionPvalues
-#' @param NbCores
-#' @param keepIntermediateFiles
+#' It will write in the Results/ folder, for each trait, the pleiotropic label
+#' of all variants.
+#'
+#'
+#' @param ListofTraits The list of traits to be processed by PleioVar
+#' @param ParametersTable The parameters table for each pair of traits, obtained
+#' from LHC-MR
+#' @param Index A dataframe with 2 columns, that contain respectively the name of
+#' the variants and their LDscores.
+#' @param gzip TRUE if you want the example data to be gzipped, FALSE otherwise.
+#' gzip= F will speed up computations, but will increase disk space usage (only
+#' relevant if keepIntermediateFiles = TRUE).
+#' @param pU Polygenicity of the confounder U, as this parameter is not obtained
+#' from LHC-MR. 1e-05 is a robust value, we do not advise to change it.
+#' @param ThreshSelectionPvalues P-value threshold to select PleioVar top variants, if you do not want
+#' the default Bonferroni correction.
+#' @param NbCores The number of cores to use, passed to `mclapply()`. Greatly
+#' reduces the computation time.
+#' @param keepIntermediateFiles TRUE if you want to keep the intermediates files,
+#' which can take a lot of disk space with a high number of traits and genetic variants.
+#' We advise to set gzip = T in this case. FALSE if you want to remove them.
 #'
 #' @return
 #' @export
@@ -16,7 +32,7 @@
 #'
 #'
 PleioVar_main <- function(ListofTraits, ParametersTable, Index, NbCores = 1, gzip = F,
-                          pU = 1e-05, TreshSelectionPvalues = 5e-08/length(ListofTraits),
+                          pU = 1e-05, ThreshSelectionPvalues = 5e-08/length(ListofTraits),
                           keepIntermediateFiles = F){
 
 
@@ -42,7 +58,7 @@ PleioVar_main <- function(ListofTraits, ParametersTable, Index, NbCores = 1, gzi
 
   message("Executing traitwise pipeline...")
 
-  Traitwise_pipeline(ListofTraits, ParametersTable, Index, NbCores, gzip, pU, TreshSelectionPvalues)
+  Traitwise_pipeline(ListofTraits, ParametersTable, Index, NbCores, gzip, pU, ThreshSelectionPvalues)
 
   message("Traitwise pipeline was successful")
 

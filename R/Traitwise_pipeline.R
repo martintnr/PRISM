@@ -1,18 +1,27 @@
-#' Title
+#' Traitwise pipeline of PleioVar
+#' @description
+#' `Traitwise_pipeline()` handles the traitwise process of PleioVar. It takes as input
+#' the likelihoods and scores obtained from `Pairwise_pipeline()`. It outputs the syntheses
+#' and the PleioVar p-values by traits in the Traitwise/ folder.
 #'
-#' @param ListofTraits
-#' @param ParametersTable
-#' @param Index
-#' @param NbCores
-#' @param gzip
-#' @param pU
-#' @param TreshSelectionPvalues
+#' Final results (PleioVar p-values and pleiotropic labels, for all variants) are
+#' written for each trait in the Results/ folder.
+#'
+#' All parameters are passed from `PleioVar_main()` and are more detailed over there.
+#'
+#' @param ListofTraits The list of traits to be processed.
+#' @param ParametersTable The parameters table for each pair of traits.
+#' @param NbCores The number of cores to use.
+#' @param Index A dataframe with all variants and their LDscores.
+#' @param gzip TRUE to gzip created files, FALSE otherwise.
+#' @param pU Polygenicity of the confounder U.
+#' @param ThreshSelectionPvalues P-value threshold to select PleioVar top variants.
 #'
 #' @return
 #' @export
 #'
 #' @examples
-Traitwise_pipeline <- function(ListofTraits, ParametersTable, Index ,NbCores, gzip, pU, TreshSelectionPvalues){
+Traitwise_pipeline <- function(ListofTraits, ParametersTable, Index ,NbCores, gzip, pU, ThreshSelectionPvalues){
 
   TableBase <- c(Index$variant)
 
@@ -158,7 +167,7 @@ Traitwise_pipeline <- function(ListofTraits, ParametersTable, Index ,NbCores, gz
 
     MSD <- fread(path)
 
-    TopVar <- MSD$variant[MSD$PX < TreshSelectionPvalues]
+    TopVar <- MSD$variant[MSD$PX < ThreshSelectionPvalues]
 
     ### Vertical
 
@@ -242,21 +251,21 @@ Traitwise_pipeline <- function(ListofTraits, ParametersTable, Index ,NbCores, gz
     Conf <- Conf %>% filter_all(any_vars(. %in% c("Om2")))
 
     if(nrow(Conf) > 0){
-    cols <- colnames(Conf)
-    result <- data.frame(variant = Conf$variant,  Upleio = apply(Conf == "Om2", 1, function(x) toString(cols[x])))
-    result$Upleio <- str_remove_all(result$Upleio, paste0(TRAIT,"_"))
-    result$Upleio <- str_remove_all(result$Upleio, paste0("_",TRAIT))
-    result$Upleio <- str_replace_all(result$Upleio, ", ", ":")
-    result$Upleio <- paste0("U:",result$Upleio  )
-    U_IDS <- Conf$variant
+      cols <- colnames(Conf)
+      result <- data.frame(variant = Conf$variant,  Upleio = apply(Conf == "Om2", 1, function(x) toString(cols[x])))
+      result$Upleio <- str_remove_all(result$Upleio, paste0(TRAIT,"_"))
+      result$Upleio <- str_remove_all(result$Upleio, paste0("_",TRAIT))
+      result$Upleio <- str_replace_all(result$Upleio, ", ", ":")
+      result$Upleio <- paste0("U:",result$Upleio  )
+      U_IDS <- Conf$variant
 
 
 
 
-    MSD$Ori[match(U_IDS,MSD$variant)]  <-  result$Upleio
-    MSD$Ori2[MSD$variant %in% U_IDS] <- "Detected Network Pleiotropy"
+      MSD$Ori[match(U_IDS,MSD$variant)]  <-  result$Upleio
+      MSD$Ori2[MSD$variant %in% U_IDS] <- "Detected Network Pleiotropy"
 
-  }
+    }
 
 
 

@@ -55,7 +55,7 @@ Index <- fread("Data/Index.csv", header = T, sep = ",")
 
 ListofTraits <- unique(c(ParametersTable$X, ParametersTable$Y))
 
-PleioVar_main(ListofTraits, ParametersTable, Index , NbCores = 1, gzip = T, keepIntermediateFiles = F)
+PleioVar_main(ListofTraits, ParametersTable, Index , NbCores = 1, gzip = F, keepIntermediateFiles = F)
 ```
 
 In the Results/ folder can be found, for each trait, a file with
@@ -64,7 +64,7 @@ variants, p-values from PleioVar, and pleiotropy annotation.
 ``` r
 library(ggplot2)
 
-Graph <- Example_graph(ListofTraits, Trait = "B4")
+Graph <- Example_graph(ListofTraits, ParametersTable, Trait = "B4")
 
 print(Graph)
 ```

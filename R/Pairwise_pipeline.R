@@ -1,11 +1,18 @@
-#' Title
+#' Pairwise pipeline of PleioVar
+#' @description
+#' `Pairwise_pipeline()` handles the pairwise process of PleioVar. It takes as input
+#' the data and outputs in the Traitwise/ folder the likelihoods and scores of
+#' each variant to belong to the different models, for each pair of traits.
 #'
-#' @param ListofTraits
-#' @param ParametersTable
-#' @param NbCores
-#' @param Index
-#' @param gzip
-#' @param pU
+#'
+#' All parameters are passed from `PleioVar_main()` and are more detailed over there.
+#'
+#' @param ListofTraits The list of traits to be processed.
+#' @param ParametersTable The parameters table for each pair of traits.
+#' @param NbCores The number of cores to use.
+#' @param Index A dataframe with all variants and their LDscores.
+#' @param gzip TRUE to gzip created files, FALSE otherwise.
+#' @param pU Polygenicity of the confounder U.
 #'
 #' @return
 #' @export

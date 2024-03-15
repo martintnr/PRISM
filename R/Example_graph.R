@@ -1,14 +1,19 @@
-#' Title
+#' Graph results from the example data
 #'
-#' @param Trait
-#' @param ListofTraits
-#' @param TreshSelectionPvalues
+#' `Example_graph()` returns a ggplot of the results obtained from the example.
 #'
-#' @return
+#' @param Trait The trait of interest.
+#' @param ListofTraits All traits in the analysis (necessary to calculate the p-value threshold)
+#' @param ThreshSelectionPvalues P-value threshold to select PleioVar top variants, if you do not want
+#' the default Bonferroni correction.
+#'@param ParametersTable The parameters table for each pair of traits.
+#'
+#' @return a ggplot of all genetic variants with GWAS p-value on the x-axis, PleioVar p-value
+#' on the y-axis, and colors according to pleiotropy.
 #' @export
 #'
 #' @examples
-Example_graph <- function(ListofTraits, Trait, TreshSelectionPvalues = 5e-08/length(ListofTraits)){
+Example_graph <- function(ListofTraits, Trait, ParametersTable, ThreshSelectionPvalues = 5e-08/length(ListofTraits)){
 
 
   Somme <- fread(paste0("Results/Pleio_", Trait,".csv"))
@@ -17,15 +22,19 @@ Example_graph <- function(ListofTraits, Trait, TreshSelectionPvalues = 5e-08/len
 
   Somme$PvalPleioVar[Somme$PvalPleioVar < 1e-200] <- 1e-200 #Pour éviter des graphes bizarres
 
-  Somme$PvalGWAS <- 2*pnorm(q=abs(X$Zscore/0.005), lower.tail=FALSE)
-  message("Pvalues from GWAS calculated from ZScores")
+
+  nX <- c(ParametersTable$nX[ParametersTable$X == Trait],
+    ParametersTable$nY[ParametersTable$Y == Trait])[1]
+
+  Somme$PvalGWAS <- 2*pnorm(q=abs(X$Zscore * sqrt(nX)), lower.tail=FALSE)
+  message("Pvalues from GWAS calculated from Zscores and sample size")
   Somme$PvalGWAS[Somme$PvalGWAS < 1e-200] <- 1e-200
 
   #Faisons un graphe
   Somme$SynthPleio[ Somme$SynthPleio == "No supplementary info"] <- "\n Direct Effect \n "
   Somme$SynthPleio[ Somme$SynthPleio == "Detected Network Pleiotropy"] <- "\n Detected Network \n Pleiotropy \n "
   Somme$SynthPleio[ Somme$SynthPleio == "Suspected Vertical Pleiotropy"] <- "\n Suspected Vertical \n Pleiotropy \n "
-  Somme$SynthPleio[ Somme$SynthPleio == "\n Direct Effect \n " & Somme$PvalPleioVar > TreshSelectionPvalues ] <- "\n No Effect \n "
+  Somme$SynthPleio[ Somme$SynthPleio == "\n Direct Effect \n " & Somme$PvalPleioVar > ThreshSelectionPvalues ] <- "\n No Effect \n "
 
 
 
