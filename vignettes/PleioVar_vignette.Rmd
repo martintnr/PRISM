@@ -52,9 +52,9 @@ devtools::install_github("LizaDarrous/lhcMR")
 Let's create and use as working directory PleioVar_NewData folder that will be used to store necessary and temporary files.
 ```{r setup3, eval = FALSE}
 
-if(!grepl("PleioVar_NewData", getwd(), fixed = TRUE)){
-if(!file.exists("PleioVar_NewData/")){system("mkdir PleioVar_NewData")}
-setwd("PleioVar_NewData")}
+if(!grepl("PleioVar_New", getwd(), fixed = TRUE)){
+if(!file.exists("PleioVar_New/")){system("mkdir PleioVar_New")}
+setwd("PleioVar_New")}
 ```
 \n
 
@@ -99,8 +99,8 @@ First, please put the path to the folder containing your data in the `sourceGWAS
 The `AllPairs` object will contain all pairs.
 ```{r exec1, eval = FALSE}
 # sourceGWAS <- "GWAS_data/"
-# ListeofTraits <- c("LDL", "HDL", "CAD")
-AllPairs <- (t(combn(ListeofTraits,2)))
+# ListofTraits <- c("LDL", "HDL", "CAD")
+AllPairs <- (t(combn(ListofTraits,2)))
 colnames(AllPairs) <- c("X", "Y")
 ```
 \n
@@ -111,6 +111,9 @@ Results will be written in the `LHCMR_Results`folder.
 
 ```{r exec2, eval = FALSE}
   
+  library(data.table)
+  library(lhcMR)
+
   RefFolder <- getwd()
 
   VAR = fread(paste0(RefFolder, "/LHCMR_Data/variants.tsv.bgz"))
@@ -140,8 +143,8 @@ lhcmrLoop <- function(A, NbCores, Minimum_MAF = 0.05){
 
   
   # Low confidence variants and variants with low minor allele frequencies (MAF) are filtered out.
-  X <- X[ (! is.na(exp$pval)) & (! exp$low_confidence_variant) & ( exp$minor_AF > Minimum_MAF), ]
-  Y <- Y[ (! is.na(out$pval)) & (! out$low_confidence_variant) & ( out$minor_AF > Minimum_MAF), ] 
+  X <- X[ (! is.na(X$pval)) & (! X$low_confidence_variant) & ( X$minor_AF > Minimum_MAF), ]
+  Y <- Y[ (! is.na(Y$pval)) & (! Y$low_confidence_variant) & ( Y$minor_AF > Minimum_MAF), ] 
   #
   
   
@@ -151,7 +154,6 @@ lhcmrLoop <- function(A, NbCores, Minimum_MAF = 0.05){
   Y = dplyr::inner_join(Y,VAR[,c(1:6)])
   
   ## File paths needed for the analysis
-  #Pas possible de wget
   LD.filepath = paste0(RefFolder, "/LHCMR_Data/LDscores_filtered.csv") # LD scores
   rho.filepath = paste0(RefFolder, "/LHCMR_Data/LD_GM2_2prm.csv") # local/SNP-specific LD scores
   
@@ -177,11 +179,12 @@ lhcmrLoop <- function(A, NbCores, Minimum_MAF = 0.05){
   gc()
   
   ## Step 2
-  SP_list = calculate_SP(df,trait.names,run_ldsc=TRUE,run_MR=TRUE,hm3=hm3,ld=ld,nStep = 2,
+  SP_list = calculate_SP(df,trait.names,run_ldsc,run_MR,hm3=hm3,ld=ld,nStep = 2,
                          SP_single=3,SP_pair=100,SNP_filter=10, nCores = NbCores) #Calculating the starting points
   
   ## Step 3
-  res = lhc_mr(SP_list, trait.names, paral_method= "lapply", nBlock=200, nCores = NbCores) #The actual optimisation
+  res = lhc_mr(SP_list, trait.names, paral_method= "lapply", nBlock=200, 
+               nCores = NbCores, run_ldsc = T, run_MR = F) #The actual optimisation
   
   Nom = paste0("ResultsLHCMR_", Trait1, "_", Trait2)
   save(res, file = Nom)
