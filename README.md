@@ -14,16 +14,11 @@ list of variants.
 You can install the current version of PleioVar like so:
 
 ``` r
-pkgs = c("data.table", "dplyr", "devtools","stats", "stringr", "parallel", "matrixStats")
-  pkgs.na = pkgs[!pkgs %in% installed.packages()[, "Package"]]
-  
-  if (length(pkgs.na) > 0) {
-    install.packages(pkgs.na)
-  }
-  
+  if(!"devtools" %in% installed.packages()[, "Package"]) {
+  install.packages(devtools) }
+
   if(!"PleioVar" %in% installed.packages()[, "Package"]) {
-  devtools::install_github("martintnr/PleioVar")
-  }
+  devtools::install_github("martintnr/PleioVar") }
 ```
 
 ## Example
