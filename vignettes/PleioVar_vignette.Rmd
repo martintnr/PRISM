@@ -1,0 +1,207 @@
+---
+title: "PleioVar vignette"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{PleioVar_vignette}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+options(rmarkdown.html_vignette.check_title = FALSE)
+```
+### Before we start
+
+This vignette is a tutorial to use PleioVar on your own data.  
+Before starting, a few points:  
+* PleioVar relies on LHC-MR results as input parameters. You will have to process your pairs of traits
+through LHC-MR before starting PleioVar.  
+* LHC-MR is limited to HapMap3 variants, and so is PleioVar.
+* LHC-MR and PleioVar are computationally intensive methods, and exponentially so the more traits you add. Parallel computing is highly recommended.   
+\n
+
+### Installation
+
+First, let's install devtools and PleioVar (if necessary).
+```{r setup1, eval = FALSE}
+if(!"devtools" %in% installed.packages()[, "Package"]) {
+  install.packages("devtools") }
+
+  if(!"PleioVar" %in% installed.packages()[, "Package"]) {
+  devtools::install_github("martintnr/PleioVar") }
+
+```
+\n
+Then, let's install LHC-MR from https://github.com/LizaDarrous/lhcMR and its dependencies.
+```{r setup2, eval = FALSE}
+devtools::install_github("MRCIEU/TwoSampleMR")
+devtools::install_github("GenomicSEM/GenomicSEM")
+
+devtools::install_github("LizaDarrous/lhcMR")
+
+```
+\n
+
+
+### Setting up the data
+
+Let's create and use as working directory PleioVar_NewData folder that will be used to store necessary and temporary files.
+```{r setup3, eval = FALSE}
+
+if(!grepl("PleioVar_NewData", getwd(), fixed = TRUE)){
+if(!file.exists("PleioVar_NewData/")){system("mkdir PleioVar_NewData")}
+setwd("PleioVar_NewData")}
+```
+\n
+
+We are going to need some data for LHC-MR. A FAIRE
+```{r setup4, eval = FALSE}
+
+if(!file.exists("LHCMR_Data")){system("mkdir LHCMR_Data")}
+
+if(!file.exists("LHCMR_Results")){system("mkdir LHCMR_Results")}
+
+
+```
+\n
+
+Next, you have to indicate the path of your GWAS data and the traits you want to process.  
+For this example, I will use LDL, HDL, and CAD from UKBiobank round 2.  
+You should use LHC-MR (https://github.com/LizaDarrous/lhcMR) guidelines to format your data.  
+Please format and rename your GWAS data to *Trait*.csv, *Trait*.csv.gz, or *Trait*.csv.bgz.  
+
+```{r setup5, eval = FALSE}
+
+#system("mkdir GWAS_data")
+
+#system("wget -O HDL.csv.bgz  https://broad-ukb-sumstats-us-east-1.s3.amazonaws.com/round2/additive-tsvs/30760_irnt.gwas.imputed_v3.both_sexes.varorder.tsv.bgz")
+
+
+#system("wget -O LDL.csv.bgz  https://broad-ukb-sumstats-us-east-1.s3.amazonaws.com/round2/additive-tsvs/30780_irnt.gwas.imputed_v3.both_sexes.varorder.tsv.bgz")
+
+#system("wget -O CAD.csv.bgz  https://broad-ukb-sumstats-us-east-1.s3.amazonaws.com/round2/additive-tsvs/I25.gwas.imputed_v3.both_sexes.tsv.bgz")
+
+#system("mv *.bgz  GWAS_data/")
+
+
+
+```
+\n
+
+
+### Running LHC-MR on all pairs of traits
+
+First, please put the path to the folder containing your data in the `sourceGWAS` object, and a `ListeofTraits` vector with all your traits.  
+The `AllPairs` object will contain all pairs.
+```{r exec1, eval = FALSE}
+# sourceGWAS <- "GWAS_data/"
+# ListeofTraits <- c("LDL", "HDL", "CAD")
+AllPairs <- (t(combn(ListeofTraits,2)))
+colnames(AllPairs) <- c("X", "Y")
+```
+\n
+
+Now, we can process our traits with LHC-MR. The function below is simply a loop of the example from their github.  
+The `NbCores` parameter is passed to `lhc_mr()` and is very important to speed up calculation. Beware, a high number of cores will greatly speed up the process, but will also consume a lot of RAM.  
+Results will be written in the `LHCMR_Results`folder.
+
+```{r exec2, eval = FALSE}
+  
+  RefFolder <- getwd()
+
+  VAR = fread(paste0(RefFolder, "/LHCMR_Data/variants.tsv.bgz"))
+  VAR$chr=as.numeric(VAR$chr)
+
+lhcmrLoop <- function(A, NbCores, Minimum_MAF = 0.05){
+  gc()
+  print(paste0("Loop"," ",A)) 
+
+    debut <- Sys.time()
+
+  
+  Trait1 <-  AllPairs[A,1] # Get the trait from the specific pairing
+  Trait2 <-  AllPairs[A,2]
+  
+  print(paste0(Trait1, " ", Trait2)) #All the pairings 
+
+  # Import both sets of summary stats and remove missing observations (= variants with no calculable    P-values)
+  
+  path1 <- paste0("sourceGWAS/", list.files("sourceGWAS/", pattern = paste0("^",Trait1,".csv")))
+  X <- fread(path1)
+ 
+  path2 <- paste0("sourceGWAS/", list.files("sourceGWAS/", pattern = paste0("^",Trait2,".csv")))
+  Y <- fread(path2)
+ 
+
+
+  
+  # Low confidence variants and variants with low minor allele frequencies (MAF) are filtered out.
+  X <- X[ (! is.na(exp$pval)) & (! exp$low_confidence_variant) & ( exp$minor_AF > Minimum_MAF), ]
+  Y <- Y[ (! is.na(out$pval)) & (! out$low_confidence_variant) & ( out$minor_AF > Minimum_MAF), ] 
+  #
+  
+  
+  ## To make sure we have all the columns needed (including allele data), we merge with Neale-provided variants file
+
+  X = dplyr::inner_join(X,VAR[,c(1:6)])
+  Y = dplyr::inner_join(Y,VAR[,c(1:6)])
+  
+  ## File paths needed for the analysis
+  #Pas possible de wget
+  LD.filepath = paste0(RefFolder, "/LHCMR_Data/LDscores_filtered.csv") # LD scores
+  rho.filepath = paste0(RefFolder, "/LHCMR_Data/LD_GM2_2prm.csv") # local/SNP-specific LD scores
+  
+  
+  
+  
+  
+  ld = paste0(RefFolder, "/LHCMR_Data/eur_w_ld_chr/")  #LD information
+  hm3 = paste0(RefFolder, "/LHCMR_Data/w_hm3.snplist")
+  
+ 
+  ## Step 1
+  trait.names=c(Trait1,Trait2)
+  input.files = list(X,Y)
+  
+  setwd("LHCMR_Results") #LHC-MR saves a lot of stuff in the working directory
+  
+  df = merge_sumstats(input.files,trait.names,LD.filepath,rho.filepath) #code from LHCMR
+  #save(df, file = "gen_data")
+  rm(X)
+  rm(Y)
+  rm(input.files)
+  gc()
+  
+  ## Step 2
+  SP_list = calculate_SP(df,trait.names,run_ldsc=TRUE,run_MR=TRUE,hm3=hm3,ld=ld,nStep = 2,
+                         SP_single=3,SP_pair=100,SNP_filter=10, nCores = NbCores) #Calculating the starting points
+  
+  ## Step 3
+  res = lhc_mr(SP_list, trait.names, paral_method= "lapply", nBlock=200, nCores = NbCores) #The actual optimisation
+  
+  Nom = paste0("ResultsLHCMR_", Trait1, "_", Trait2)
+  save(res, file = Nom)
+  
+  
+  fin <- Sys.time()
+  print(c(Trait1,Trait2))
+  print(fin-debut)
+  
+  setwd(RefFolder)
+
+  
+  return(res)
+}
+
+
+Range <- c(1:nrow(AllPairs))  
+
+lapply(X = Range, FUN = lhcmrLoop, NbCores = 1)
+
+```
+\n
+
