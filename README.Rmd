@@ -27,7 +27,7 @@ You can install the current version of PleioVar like so:
 
 ``` r
   if(!"devtools" %in% installed.packages()[, "Package"]) {
-  install.packages(devtools) }
+  install.packages("devtools") }
 
   if(!"PleioVar" %in% installed.packages()[, "Package"]) {
   devtools::install_github("martintnr/PleioVar") }
