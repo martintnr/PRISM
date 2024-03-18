@@ -99,13 +99,12 @@ Pairwise_pipeline <- function(ListofTraits, ParametersTable, Index , sourceGWAS,
 
         setwd("LHCMR_Results") #LHC-MR saves a lot of stuff in the working directory
 
-        df = merge_sumstats(input.files,trait.names,LD.filepath,rho.filepath) #code from LHCMR
-        #save(df, file = "gen_data")
+        df = lhcMR::merge_sumstats(input.files,trait.names,LD.filepath,rho.filepath) #code from LHCMR
 
 
 
-        bX = gen_data$`TSTAT.x`/sqrt(gen_data$`N.x`)  #Effects of trait X
-        bY = gen_data$`TSTAT.y`/sqrt(gen_data$`N.y`)  #Effects of trait X
+        bX = df$`TSTAT.x`/sqrt(gen_data$`N.x`)  #Effects of trait X
+        bY = df$`TSTAT.y`/sqrt(gen_data$`N.y`)  #Effects of trait X
 
         rm(X)
         rm(Y)

@@ -116,6 +116,8 @@ Results will be written in the `LHCMR_Results`folder.
 ```{r exec2, eval = FALSE}
   
   library(data.table)
+  library(GenomicSEM)
+  library(TwoSampleMR)
   library(lhcMR)
 
   RefFolder <- getwd()
@@ -219,6 +221,16 @@ lapply(X = Range, FUN = lhcmrLoop, NbCores = 1)
 Let's format the LHC-MR results in a PleioVar-friendly format, and gather the last necessary inputs.
 ```{r pv1, eval = FALSE}
 
+library(data.table)
+library(dplyr)
+library(stats)
+library(stringr)
+library(parallel)
+library(matrixStats)
+library(PleioVar)
+
+
+
 ParametersTable <- Format_parameters_table(AllPairs, resdir = "LHCMR_Results")
 Index <- fread("Necessary_data/Index_FULL.csv", header = T, sep = ",")
 ListofTraits <- unique(c(ParametersTable$X, ParametersTable$Y))
@@ -229,9 +241,9 @@ ListofTraits <- unique(c(ParametersTable$X, ParametersTable$Y))
 
 The final step is to run the PleioVar pipeline.  
 If you have a Zscore column in your GWAS data, PleioVar will process them.  
-If you do not, the Zscores will be computed with $tstat/\sqrt{(sample \: size)}$. If your formatted your data according to LHC-MR guidelines and the previous steps worked, everything should run automatically.
+If you do not, the Zscores will be computed with $tstat/\sqrt{(sample \: size)}$. If you formatted your data according to LHC-MR guidelines and the previous steps worked, everything should run automatically.
 
-```{r pv1, eval = FALSE}
+```{r pv2, eval = FALSE}
 
 PleioVar_main(ListofTraits, ParametersTable, Index , sourceGWAS = sourceGWAS,
               NbCores = 1, gzip = F, keepIntermediateFiles = F)
