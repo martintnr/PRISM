@@ -20,7 +20,7 @@
 #' @examples
 #'
 #'
-Pairwise_pipeline <- function(ListofTraits, ParametersTable, Index ,NbCores, gzip, pU){
+Pairwise_pipeline <- function(ListofTraits, ParametersTable, Index , sourceGWAS, NbCores, gzip, pU,  Minimum_MAF){
 
 
 
@@ -36,12 +36,33 @@ Pairwise_pipeline <- function(ListofTraits, ParametersTable, Index ,NbCores, gzi
 
       print(paste0("Pair ", Trait1, " ", Trait2))
 
-      path1 <- paste0("Data/", list.files("Data/", pattern = paste0("^",Trait1,".csv")))
-      path2 <- paste0("Data/", list.files("Data/", pattern = paste0("^",Trait2,".csv")))
+      path1 <- paste0(sourceGWAS, list.files(sourceGWAS, pattern = paste0("^",Trait1,".csv")))
+      path2 <- paste0(sourceGWAS, list.files(sourceGWAS, pattern = paste0("^",Trait2,".csv")))
 
       X <- fread(path1)
       Y <- fread(path2)
 
+
+      if("pval" %in% colnames(X) & "pval" %in% colnames(Y))
+      {
+        X <- X[ (! is.na(X$pval)) , ]
+        Y <- Y[ (! is.na(Y$pval)) , ]
+        message("NA p-values (if any) were removed")
+      }
+
+      if("low_confidence_variant" %in% colnames(X) & "low_confidence_variant" %in% colnames(Y))
+      {
+        X <- X[ (! X$low_confidence_variant) , ]
+        Y <- Y[ (! Y$low_confidence_variant) , ]
+        message("Low confidence variants (if any) were removed")
+      }
+
+      if("minor_AF" %in% colnames(X) & "minor_AF" %in% colnames(Y))
+      {
+        X <- X[ ( X$minor_AF > Minimum_MAF) , ]
+        Y <- Y[ ( Y$minor_AF > Minimum_MAF) , ]
+        message(paste0("Variants with MAF lower than "), Minimum_MAF, " were removed")
+      }
 
 
       nX <- ParametersTable$nX[A]
@@ -49,8 +70,57 @@ Pairwise_pipeline <- function(ListofTraits, ParametersTable, Index ,NbCores, gzi
       rho <- ParametersTable$rhoXY[A]
 
       M = nrow(Index) #Number of SNPs
-      bX = X$Zscore  #Effects of trait X
-      bY = Y$Zscore  #Effects of trait Y
+
+      if("Zscore" %in% colnames(X) & "Zscore" %in% colnames(Y))
+      {
+        bX = X$Zscore  #Effects of trait X
+        bY = Y$Zscore  #Effects of trait Y
+      }else{ #Let's use LHC-MR code to get the Zscores
+
+
+        X = dplyr::inner_join(X,VAR[,c(1:6)])
+        Y = dplyr::inner_join(Y,VAR[,c(1:6)])
+
+        ## File paths needed for the analysis
+        LD.filepath = paste0(RefFolder, "/Necessary_data/LDscores_filtered.csv") # LD scores
+        rho.filepath = paste0(RefFolder, "/Necessary_data/LD_GM2_2prm.csv") # local/SNP-specific LD scores
+
+
+
+
+
+        ld = paste0(RefFolder, "/Necessary_data/eur_w_ld_chr/")  #LD information
+        hm3 = paste0(RefFolder, "/Necessary_data/w_hm3.snplist")
+
+
+        ## Step 1
+        trait.names=c(Trait1,Trait2)
+        input.files = list(X,Y)
+
+        setwd("LHCMR_Results") #LHC-MR saves a lot of stuff in the working directory
+
+        df = merge_sumstats(input.files,trait.names,LD.filepath,rho.filepath) #code from LHCMR
+        #save(df, file = "gen_data")
+
+
+
+        bX = gen_data$`TSTAT.x`/sqrt(gen_data$`N.x`)  #Effects of trait X
+        bY = gen_data$`TSTAT.y`/sqrt(gen_data$`N.y`)  #Effects of trait X
+
+        rm(X)
+        rm(Y)
+        rm(input.files)
+        rm(df)
+        gc()
+
+
+        message("Zscores were recalculated")
+
+
+      }
+
+
+
 
       ld = Index$LDscore
 
@@ -179,6 +249,7 @@ Pairwise_pipeline <- function(ListofTraits, ParametersTable, Index ,NbCores, gzi
 
 
       Omega_BIC <- Omega_opti
+      Omega_BIC <- na.omit(Omega_BIC)
       Omega_BIC <- transform(Omega_BIC, index =1+apply(Omega_BIC[,2:9], 1, which.max))
       Label <- c( "L2", "Om0", "Om1", "Om2", "Om3", "Om4", "Om5", "Om6", "Om7")
       if(!"SNP_Category"%in% colnames(Omega_BIC)){ #On ne remplit le tableau avec la catégorie que si cela n'a pas été fait dans un des if précédent
@@ -195,7 +266,7 @@ Pairwise_pipeline <- function(ListofTraits, ParametersTable, Index ,NbCores, gzi
       Score$PH <- NULL
       Score$variant <- Omega_BIC$INDEX
       Score$CatCharc <- Omega_BIC$SNP_Category
-
+      Score <- merge(Index, Score, by.x = "variant", by.y = "variant", no.dups = TRUE, all.x = TRUE, sort = FALSE )
 
       write.table(Score, paste0("Pairwise/SNP_Scores_", Trait1, "_", Trait2,".csv"), sep=",", quote=F, row.names=F, col.names = T)
 

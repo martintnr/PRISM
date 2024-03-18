@@ -51,7 +51,8 @@ Index <- fread("Data/Index.csv", header = T, sep = ",")
 
 ListofTraits <- unique(c(ParametersTable$X, ParametersTable$Y))
 
-PleioVar_main(ListofTraits, ParametersTable, Index , NbCores = 1, gzip = F, keepIntermediateFiles = F)
+PleioVar_main(ListofTraits, ParametersTable, Index , sourceGWAS = "Data/",
+              NbCores = 1, gzip = F, keepIntermediateFiles = F)
 ```
 
 In the Results/ folder can be found, for each trait, a file with

@@ -31,9 +31,9 @@
 #' @examples
 #'
 #'
-PleioVar_main <- function(ListofTraits, ParametersTable, Index, NbCores = 1, gzip = F,
+PleioVar_main <- function(ListofTraits, ParametersTable, Index, sourceGWAS ,NbCores = 1, gzip = F,
                           pU = 1e-05, ThreshSelectionPvalues = 5e-08/length(ListofTraits),
-                          keepIntermediateFiles = F){
+                          keepIntermediateFiles = F,  Minimum_MAF = 0.05){
 
 
   if(!file.exists("Pairwise/")){system("mkdir Pairwise")}
@@ -52,7 +52,7 @@ PleioVar_main <- function(ListofTraits, ParametersTable, Index, NbCores = 1, gzi
   message("Executing pairwise pipeline...")
 
 
-  Pairwise_pipeline(ListofTraits, ParametersTable, Index, NbCores, gzip, pU)
+  Pairwise_pipeline(ListofTraits, ParametersTable, Index, sourceGWAS,NbCores, gzip, pU,  Minimum_MAF)
 
   message("Pairwise pipeline was successful")
 

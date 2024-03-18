@@ -120,7 +120,8 @@ Results will be written in the `LHCMR_Results`folder.
 
   RefFolder <- getwd()
 
-  VAR = fread(paste0(RefFolder, "/Necessary_data/variants.tsv.bgz"))
+  VAR = fread(paste0(RefFolder, "/Necessary_data/variants.tsv.bgz"),
+            select = c("variant", "chr", "pos", "ref", "alt", "rsid"))
   VAR$chr=as.numeric(VAR$chr)
 
 lhcmrLoop <- function(A, NbCores, Minimum_MAF = 0.05, run_ldsc = T, run_MR = T){
@@ -136,10 +137,10 @@ lhcmrLoop <- function(A, NbCores, Minimum_MAF = 0.05, run_ldsc = T, run_MR = T){
 
   # Import both sets of summary stats and remove missing observations (= variants with no calculable P-values)
   
-  path1 <- paste0("sourceGWAS/", list.files("sourceGWAS/", pattern = paste0("^",Trait1,".csv")))
+  path1 <- paste0(sourceGWAS, list.files(sourceGWAS, pattern = paste0("^",Trait1,".csv")))
   X <- fread(path1)
  
-  path2 <- paste0("sourceGWAS/", list.files("sourceGWAS/", pattern = paste0("^",Trait2,".csv")))
+  path2 <- paste0(sourceGWAS, list.files(sourceGWAS, pattern = paste0("^",Trait2,".csv")))
   Y <- fread(path2)
  
 
@@ -209,11 +210,31 @@ Range <- c(1:nrow(AllPairs))
 lapply(X = Range, FUN = lhcmrLoop, NbCores = 1)
 
 ```
-Before running PleioVar, 
-```{r exec3, eval = FALSE}
+\n
+
+### Running PleioVar
+
+\n
+
+Let's format the LHC-MR results in a PleioVar-friendly format, and gather the last necessary inputs.
+```{r pv1, eval = FALSE}
 
 ParametersTable <- Format_parameters_table(AllPairs, resdir = "LHCMR_Results")
+Index <- fread("Necessary_data/Index_FULL.csv", header = T, sep = ",")
+ListofTraits <- unique(c(ParametersTable$X, ParametersTable$Y))
+
   
 ```
 \n
+
+The final step is to run the PleioVar pipeline.  
+If you have a Zscore column in your GWAS data, PleioVar will process them.  
+If you do not, the Zscores will be computed with $tstat/\sqrt{(sample \: size)}$. If your formatted your data according to LHC-MR guidelines and the previous steps worked, everything should run automatically.
+
+```{r pv1, eval = FALSE}
+
+PleioVar_main(ListofTraits, ParametersTable, Index , sourceGWAS = sourceGWAS,
+              NbCores = 1, gzip = F, keepIntermediateFiles = F)
+```
+
 

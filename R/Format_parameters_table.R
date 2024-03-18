@@ -29,7 +29,7 @@ Format_parameters_table <- function(AllPairs, resdir, rhoXY = 0){
 
     return(params)
   }
-  tabparams <- do.call(rbind, lapply(X = c(1:nrow(AllPairs)), FUN =  get_parameters))
+  tabparams <- as.data.frame(do.call(rbind, lapply(X = c(1:nrow(AllPairs)), FUN =  get_parameters)))
 
 
   colnames(tabparams) <- c("X", "Y",
