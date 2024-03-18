@@ -103,8 +103,8 @@ Pairwise_pipeline <- function(ListofTraits, ParametersTable, Index , sourceGWAS,
 
 
 
-        bX = df$`TSTAT.x`/sqrt(gen_data$`N.x`)  #Effects of trait X
-        bY = df$`TSTAT.y`/sqrt(gen_data$`N.y`)  #Effects of trait X
+        bX = df$`TSTAT.x`/sqrt(df$`N.x`)  #Effects of trait X
+        bY = df$`TSTAT.y`/sqrt(df$`N.y`)  #Effects of trait X
 
         rm(X)
         rm(Y)
