@@ -58,12 +58,16 @@ setwd("PleioVar_New")}
 ```
 \n
 
-We are going to need some data for LHC-MR. A FAIRE
+Some data (like LD-scores) are required for PleioVar and its dependencies. 
+Let's download them from zenodo, and also create a folder for the future LHC-MR results.
 ```{r setup4, eval = FALSE}
 
-if(!file.exists("LHCMR_Data")){system("mkdir LHCMR_Data")}
+system("wget -O Necessary_data.zip  https://zenodo.org/records/10829652/files/Necessary_data.zip?download=1")
+system("unzip Necessary_data.zip -d Necessary_data && rm Necessary_data.zip")
+
 
 if(!file.exists("LHCMR_Results")){system("mkdir LHCMR_Results")}
+
 
 
 ```
@@ -96,7 +100,7 @@ Please format and rename your GWAS data to *Trait*.csv, *Trait*.csv.gz, or *Trai
 ### Running LHC-MR on all pairs of traits
 
 First, please put the path to the folder containing your data in the `sourceGWAS` object, and a `ListeofTraits` vector with all your traits.  
-The `AllPairs` object will contain all pairs.
+The `AllPairs` object will contain all possible unique pairs of traits.
 ```{r exec1, eval = FALSE}
 # sourceGWAS <- "GWAS_data/"
 # ListofTraits <- c("LDL", "HDL", "CAD")
@@ -105,7 +109,7 @@ colnames(AllPairs) <- c("X", "Y")
 ```
 \n
 
-Now, we can process our traits with LHC-MR. The function below is simply a loop of the example from their github.  
+Now, you can process your traits with LHC-MR. The function below is simply a loop of the example from their github.  
 The `NbCores` parameter is passed to `lhc_mr()` and is very important to speed up calculation. Beware, a high number of cores will greatly speed up the process, but will also consume a lot of RAM.  
 Results will be written in the `LHCMR_Results`folder.
 
@@ -116,22 +120,21 @@ Results will be written in the `LHCMR_Results`folder.
 
   RefFolder <- getwd()
 
-  VAR = fread(paste0(RefFolder, "/LHCMR_Data/variants.tsv.bgz"))
+  VAR = fread(paste0(RefFolder, "/Necessary_data/variants.tsv.bgz"))
   VAR$chr=as.numeric(VAR$chr)
 
-lhcmrLoop <- function(A, NbCores, Minimum_MAF = 0.05){
+lhcmrLoop <- function(A, NbCores, Minimum_MAF = 0.05, run_ldsc = T, run_MR = T){
   gc()
   print(paste0("Loop"," ",A)) 
 
     debut <- Sys.time()
 
-  
-  Trait1 <-  AllPairs[A,1] # Get the trait from the specific pairing
-  Trait2 <-  AllPairs[A,2]
-  
-  print(paste0(Trait1, " ", Trait2)) #All the pairings 
+  Trait1 <- AllPairs[A,"X"] # Get the trait from the specific pairing
+  Trait2 <- AllPairs[A,"Y"]
 
-  # Import both sets of summary stats and remove missing observations (= variants with no calculable    P-values)
+  
+
+  # Import both sets of summary stats and remove missing observations (= variants with no calculable P-values)
   
   path1 <- paste0("sourceGWAS/", list.files("sourceGWAS/", pattern = paste0("^",Trait1,".csv")))
   X <- fread(path1)
@@ -154,15 +157,15 @@ lhcmrLoop <- function(A, NbCores, Minimum_MAF = 0.05){
   Y = dplyr::inner_join(Y,VAR[,c(1:6)])
   
   ## File paths needed for the analysis
-  LD.filepath = paste0(RefFolder, "/LHCMR_Data/LDscores_filtered.csv") # LD scores
-  rho.filepath = paste0(RefFolder, "/LHCMR_Data/LD_GM2_2prm.csv") # local/SNP-specific LD scores
+  LD.filepath = paste0(RefFolder, "/Necessary_data/LDscores_filtered.csv") # LD scores
+  rho.filepath = paste0(RefFolder, "/Necessary_data/LD_GM2_2prm.csv") # local/SNP-specific LD scores
   
   
   
   
   
-  ld = paste0(RefFolder, "/LHCMR_Data/eur_w_ld_chr/")  #LD information
-  hm3 = paste0(RefFolder, "/LHCMR_Data/w_hm3.snplist")
+  ld = paste0(RefFolder, "/Necessary_data/eur_w_ld_chr/")  #LD information
+  hm3 = paste0(RefFolder, "/Necessary_data/w_hm3.snplist")
   
  
   ## Step 1
@@ -184,7 +187,7 @@ lhcmrLoop <- function(A, NbCores, Minimum_MAF = 0.05){
   
   ## Step 3
   res = lhc_mr(SP_list, trait.names, paral_method= "lapply", nBlock=200, 
-               nCores = NbCores, run_ldsc = T, run_MR = F) #The actual optimisation
+               nCores = NbCores, run_ldsc, run_MR) #The actual optimisation
   
   Nom = paste0("ResultsLHCMR_", Trait1, "_", Trait2)
   save(res, file = Nom)
@@ -205,6 +208,12 @@ Range <- c(1:nrow(AllPairs))
 
 lapply(X = Range, FUN = lhcmrLoop, NbCores = 1)
 
+```
+Before running PleioVar, 
+```{r exec3, eval = FALSE}
+
+ParametersTable <- Format_parameters_table(AllPairs, resdir = "LHCMR_Results")
+  
 ```
 \n
 
