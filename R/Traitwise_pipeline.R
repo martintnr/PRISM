@@ -103,6 +103,19 @@ Traitwise_pipeline <- function(ListofTraits, ParametersTable, Index ,NbCores, gz
 
     gc()
 
+
+    TableBaseOEffect <- TableBaseOEffect[complete.cases(TableBaseOEffect), ]
+    TableBaseXEffect <- TableBaseXEffect[complete.cases(TableBaseXEffect), ]
+
+    if(nrow(TableBaseOEffect ) != nrow(TableBaseXEffect)){
+
+      TableBaseOEffect <- TableBaseOEffect[TableBaseOEffect$variant %in% TableBaseXEffect$variant,]
+      TableBaseXEffect <- TableBaseXEffect[TableBaseXEffect$variant %in% TableBaseOEffect$variant,]
+
+    }
+
+    gc()
+
     Range <- c(2:as.numeric(length(TableBaseOEffect)))
 
 
@@ -112,8 +125,8 @@ Traitwise_pipeline <- function(ListofTraits, ParametersTable, Index ,NbCores, gz
     MSD$sdO <- rowSds(as.matrix(TableBaseOEffect[, Range]), na.rm = TRUE)
     MSD$meanX <-  rowMeans(TableBaseXEffect[, Range])
     MSD$sdX <- rowSds(as.matrix(TableBaseXEffect[, Range]), na.rm = TRUE)
-    MSD$meanU <-  rowMeans(TableBaseUEffect[, Range])
-    MSD$sdU <- rowSds(as.matrix(TableBaseUEffect[, Range]), na.rm = TRUE)
+#    MSD$meanU <-  rowMeans(TableBaseUEffect[, Range])
+ #   MSD$sdU <- rowSds(as.matrix(TableBaseUEffect[, Range]), na.rm = TRUE)
 
 
     TEST <- function(SNP){ #Paired T-test of the direct effect of the variant on the trait
@@ -141,6 +154,12 @@ Traitwise_pipeline <- function(ListofTraits, ParametersTable, Index ,NbCores, gz
     ResX <- mclapply(X = c(1:nrow(MSD)), FUN = TEST, mc.cores = 1)  #Le tableau total
     MSD$PX <- as.numeric(ResX)
 
+
+    MSD_full <-  merge(Index, MSD, by.x = "variant", by.y = "variant", no.dups = TRUE, all.x = TRUE, sort = FALSE )
+    MSD_full <-  MSD_full[match(Index$variant, MSD_full$variant),] #dans le même ordre pour tous
+
+    #On ne garde que les variants et le pX
+    MSD_full <- MSD_full[,c("variant", "PX")]
     write.table(MSD, file = paste0("Traitwise/Pvalues_", TRAIT, ".csv"), sep=",", quote=F, row.names=F, col.names = T)
 
 

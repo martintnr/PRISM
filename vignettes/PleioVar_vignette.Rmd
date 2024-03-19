@@ -233,6 +233,7 @@ library(PleioVar)
 
 ParametersTable <- Format_parameters_table(AllPairs, resdir = "LHCMR_Results")
 Index <- fread("Necessary_data/Index_FULL.csv", header = T, sep = ",")
+colnames(Index) <- c("rsid", "variant", "LDscore")
 ListofTraits <- unique(c(ParametersTable$X, ParametersTable$Y))
 
   

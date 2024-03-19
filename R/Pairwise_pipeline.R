@@ -71,10 +71,18 @@ Pairwise_pipeline <- function(ListofTraits, ParametersTable, Index , sourceGWAS,
 
       M = nrow(Index) #Number of SNPs
 
-      if("Zscore" %in% colnames(X) & "Zscore" %in% colnames(Y))
-      {
-        bX = X$Zscore  #Effects of trait X
-        bY = Y$Zscore  #Effects of trait Y
+      if("Zscore" %in% colnames(X) & "Zscore" %in% colnames(Y)){
+        df <- merge(X , Y, by = "variant", sort = F)
+        df <- merge(Index, df, by = "variant", sort = F)
+
+        bX = df$Zscore.x  #Effects of trait X
+        bY = df$Zscore.y  #Effects of trait Y
+        ld = df$LDscore
+        Variants <- df$variant
+        rm(df)
+        gc()
+
+
       }else{ #Let's use LHC-MR code to get the Zscores
 
 
@@ -97,7 +105,6 @@ Pairwise_pipeline <- function(ListofTraits, ParametersTable, Index , sourceGWAS,
         trait.names=c(Trait1,Trait2)
         input.files = list(X,Y)
 
-        setwd("LHCMR_Results") #LHC-MR saves a lot of stuff in the working directory
 
         df = lhcMR::merge_sumstats(input.files,trait.names,LD.filepath,rho.filepath) #code from LHCMR
 
@@ -105,6 +112,9 @@ Pairwise_pipeline <- function(ListofTraits, ParametersTable, Index , sourceGWAS,
 
         bX = df$`TSTAT.x`/sqrt(df$`N.x`)  #Effects of trait X
         bY = df$`TSTAT.y`/sqrt(df$`N.y`)  #Effects of trait X
+        ld = df$LDSC
+        Variants <- df$VARIANT.x
+
 
         rm(X)
         rm(Y)
@@ -120,8 +130,6 @@ Pairwise_pipeline <- function(ListofTraits, ParametersTable, Index , sourceGWAS,
 
 
 
-
-      ld = Index$LDscore
 
 
 
@@ -227,7 +235,7 @@ Pairwise_pipeline <- function(ListofTraits, ParametersTable, Index , sourceGWAS,
       colnames(Omega_opti) = c("L2", "Om0", "Om1", "Om2", "Om3", "Om4", "Om5", "Om6", "Om7") #On a récupérer la vraisemblance pour chaque modèle pour chaque SNP
 
 
-      Omega_opti$INDEX <- Index$variant
+      Omega_opti$INDEX <- Variants
 
 
       write.table(Omega_opti, paste0("Pairwise/Likelihood_", Trait1, "_", Trait2,".csv"), sep=",", quote=F, row.names=F)
@@ -266,6 +274,8 @@ Pairwise_pipeline <- function(ListofTraits, ParametersTable, Index , sourceGWAS,
       Score$variant <- Omega_BIC$INDEX
       Score$CatCharc <- Omega_BIC$SNP_Category
       Score <- merge(Index, Score, by.x = "variant", by.y = "variant", no.dups = TRUE, all.x = TRUE, sort = FALSE )
+      Score <- Score[match(Index$variant, Score$variant),] #dans le même ordre pour tous
+
 
       write.table(Score, paste0("Pairwise/SNP_Scores_", Trait1, "_", Trait2,".csv"), sep=",", quote=F, row.names=F, col.names = T)
 
