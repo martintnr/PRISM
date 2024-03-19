@@ -37,6 +37,12 @@ Format_parameters_table <- function(AllPairs, resdir, rhoXY = 0){
                            "iY", "piY", "h2Y", "tY", "ayx", "pval_ayx", "nY",
                            "rhoXY")
 
+
+
+  tabparams[,!names(tabparams) %in% c("X", "Y")] <- lapply( tabparams[,!names(tabparams) %in% c("X", "Y")], function(x) {
+  as.numeric(x)})
+
+
   return(tabparams)
 
 }
