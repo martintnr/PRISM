@@ -232,7 +232,7 @@ The final step is to run the PleioVar pipeline.
 If you have a Zscore column in your GWAS data, PleioVar will process
 them.  
 If you do not, the Zscores will be computed with
-$\frac{tstat}{\sqrt{(sample \: size)}}$. If you formatted your data
+$\frac{tstat}{\sqrt{(sample \ size)}}$. If you formatted your data
 according to LHC-MR guidelines and the previous steps worked, everything
 should run automatically.  
 As usual, a higher number of cores in the `NbCores` parameters will

@@ -65,3 +65,6 @@ Graph <- Example_graph(ListofTraits, ParametersTable, Trait = "B4")
 
 print(Graph)
 ```
+
+If you want to use PleioVar on your own data, you can use this vignette:
+\[<https://github.com/martintnr/PleioVar/blob/main/vignettes/PleioVar_vignette.md>\]
