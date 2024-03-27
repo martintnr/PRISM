@@ -13,6 +13,8 @@
 #' @param Index A dataframe with all variants and their LDscores.
 #' @param gzip TRUE to gzip created files, FALSE otherwise.
 #' @param pU Polygenicity of the confounder U.
+#' @param sourceGWAS The folder where GWAS summary statistics files are held.
+#' @param Minimum_MAF Genetic variants with minimum allele frequency below this value will be filtered out.
 #'
 #' @return
 #' @export

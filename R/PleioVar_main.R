@@ -24,6 +24,8 @@
 #' @param keepIntermediateFiles TRUE if you want to keep the intermediates files,
 #' which can take a lot of disk space with a high number of traits and genetic variants.
 #' We advise to set gzip = T in this case. FALSE if you want to remove them.
+#' @param sourceGWAS The folder where GWAS summary statistics files are held.
+#' @param Minimum_MAF Genetic variants with minimum allele frequency below this value will be filtered out.
 #'
 #' @return
 #' @export
@@ -31,7 +33,7 @@
 #' @examples
 #'
 #'
-PleioVar_main <- function(ListofTraits, ParametersTable, Index, sourceGWAS ,NbCores = 1, gzip = F,
+PleioVar_main <- function(ListofTraits, ParametersTable, Index, sourceGWAS = getwd() ,NbCores = 1, gzip = F,
                           pU = 1e-05, ThreshSelectionPvalues = 5e-08/length(ListofTraits),
                           keepIntermediateFiles = F,  Minimum_MAF = 0.05){
 
@@ -47,6 +49,10 @@ PleioVar_main <- function(ListofTraits, ParametersTable, Index, sourceGWAS ,NbCo
   }
   # We set up the folder architecture
 
+
+  if(length(ListofTraits) < 31){
+    message(paste0(length(ListofTraits)), " were submitted, which is less than the 31 traits recommended. Power and accuracy will be reduced")
+    }
 
   # PleioVar is separated in two parts
   message("Executing pairwise pipeline...")

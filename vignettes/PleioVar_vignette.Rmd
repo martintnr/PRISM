@@ -18,10 +18,11 @@ options(rmarkdown.html_vignette.check_title = FALSE)
 
 This vignette is a tutorial to use PleioVar on your own data.  
 Before starting, a few points:  
-* PleioVar relies on LHC-MR results as input parameters. You will have to process your pairs of traits
+
+  - PleioVar relies on LHC-MR results as input parameters. You will have to process your pairs of traits
 through LHC-MR before starting PleioVar.  
-* LHC-MR is limited to HapMap3 variants, and so is PleioVar.
-* LHC-MR and PleioVar are computationally intensive methods, and exponentially so the more traits you add. Parallel computing is highly recommended.   
+  - LHC-MR is limited to HapMap3 variants, and so is PleioVar.
+  - LHC-MR and PleioVar are computationally intensive methods, and exponentially so the more traits you add. Parallel computing is highly recommended.   
 \n
 
 ### Installation
