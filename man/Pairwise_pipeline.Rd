@@ -4,7 +4,16 @@
 \alias{Pairwise_pipeline}
 \title{Pairwise pipeline of PleioVar}
 \usage{
-Pairwise_pipeline(ListofTraits, ParametersTable, Index, NbCores, gzip, pU)
+Pairwise_pipeline(
+  ListofTraits,
+  ParametersTable,
+  Index,
+  sourceGWAS,
+  NbCores,
+  gzip,
+  pU,
+  Minimum_MAF
+)
 }
 \arguments{
 \item{ListofTraits}{The list of traits to be processed.}
@@ -13,11 +22,15 @@ Pairwise_pipeline(ListofTraits, ParametersTable, Index, NbCores, gzip, pU)
 
 \item{Index}{A dataframe with all variants and their LDscores.}
 
+\item{sourceGWAS}{The folder where GWAS summary statistics files are held.}
+
 \item{NbCores}{The number of cores to use.}
 
 \item{gzip}{TRUE to gzip created files, FALSE otherwise.}
 
 \item{pU}{Polygenicity of the confounder U.}
+
+\item{Minimum_MAF}{Genetic variants with minimum allele frequency below this value will be filtered out.}
 }
 \description{
 `Pairwise_pipeline()` handles the pairwise process of PleioVar. It takes as input

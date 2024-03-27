@@ -8,11 +8,13 @@ PleioVar_main(
   ListofTraits,
   ParametersTable,
   Index,
+  sourceGWAS = getwd(),
   NbCores = 1,
   gzip = F,
   pU = 1e-05,
   ThreshSelectionPvalues = 5e-08/length(ListofTraits),
-  keepIntermediateFiles = F
+  keepIntermediateFiles = F,
+  Minimum_MAF = 0.05
 )
 }
 \arguments{
@@ -23,6 +25,8 @@ from LHC-MR}
 
 \item{Index}{A dataframe with 2 columns, that contain respectively the name of
 the variants and their LDscores.}
+
+\item{sourceGWAS}{The folder where GWAS summary statistics files are held.}
 
 \item{NbCores}{The number of cores to use, passed to `mclapply()`. Greatly
 reduces the computation time.}
@@ -40,6 +44,8 @@ the default Bonferroni correction.}
 \item{keepIntermediateFiles}{TRUE if you want to keep the intermediates files,
 which can take a lot of disk space with a high number of traits and genetic variants.
 We advise to set gzip = T in this case. FALSE if you want to remove them.}
+
+\item{Minimum_MAF}{Genetic variants with minimum allele frequency below this value will be filtered out.}
 }
 \description{
 `PleioVar_main()` is the main function of PleioVar, that takes as input the list of traits to process,

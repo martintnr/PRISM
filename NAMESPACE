@@ -1,1 +1,4 @@
 exportPattern("^[[:alpha:]]+")
+importFrom("stats", "complete.cases", "na.omit", "pnorm", "t.test",
+               "wilcox.test")
+importFrom("utils", "combn", "read.csv", "write.table")

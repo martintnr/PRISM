@@ -1,10 +1,12 @@
-#' Format parameters table
+#' Format parameters table from LHC-MR results
+#' @description
+#' `Format_parameters_table()` format LHC-MR results to be PleioVar-friendly.
+#' It takes as input the results of the multiple loops of LHC-MR, and returns a unique table with all parameters.
+#' @param resdir The folder holding LHC-MR results.
+#' @param AllPairs A dataframe containing all unique pairs of traits that will be processed by PleioVar.
+#' @param rhoXY Akin to cross-trait LD score regression intercept. By default, 0. You can input your own vector of rho calculated for all pairs of traits.
 #'
-#' @param resdir
-#' @param AllPairs
-#' @param rhoXY
-#'
-#' @return
+#' @return A PleioVar-friendly parameters table from LHC-MR results.
 #' @export
 #'
 #' @examples
@@ -21,11 +23,14 @@ Format_parameters_table <- function(AllPairs, resdir, rhoXY = 0){
     Nom = paste0(resdir,"/ResultsLHCMR_", Trait1, "_", Trait2)
 
     load(Nom) #res object is loaded
+    rhoXY_ip <- rhoXY
+
+    if(length(rhoXY) == nrow(AllPairs)){rhoXY_ip <- rhoXY[A] }
 
     params <- c(Trait1, Trait2,
                 res[1,"iX"], res[1,"piX"],res[1,"h2X"],res[1,"tX"],res[1,"axy"],res[3,"axy"],res[1,"nX"],
                 res[1,"iY"], res[1,"piY"],res[1,"h2Y"],res[1,"tY"],res[1,"ayx"],res[3,"ayx"],res[1,"nY"],
-                rhoXY)
+                rhoXY_ip)
 
     return(params)
   }
