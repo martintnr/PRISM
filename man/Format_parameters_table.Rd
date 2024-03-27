@@ -11,7 +11,7 @@ Format_parameters_table(AllPairs, resdir, rhoXY = 0)
 
 \item{resdir}{The folder holding LHC-MR results.}
 
-\item{rhoXY}{Akin to cross-trait LD score regression intercept. By default, 0. You can input your own vector of rho calculated for all pairs of traits.}
+\item{rhoXY}{Akin to cross-trait LD score regression intercept. For now, 0 is advised.}
 }
 \value{
 A PleioVar-friendly parameters table from LHC-MR results.
