@@ -4,7 +4,7 @@
 #' It takes as input the results of the multiple loops of LHC-MR, and returns a unique table with all parameters.
 #' @param resdir The folder holding LHC-MR results.
 #' @param AllPairs A dataframe containing all unique pairs of traits that will be processed by PleioVar.
-#' @param rhoXY Akin to cross-trait LD score regression intercept. By default, 0. You can input your own vector of rho calculated for all pairs of traits.
+#' @param rhoXY Akin to cross-trait LD score regression intercept. For now, 0 is advised.
 #'
 #' @return A PleioVar-friendly parameters table from LHC-MR results.
 #' @export
