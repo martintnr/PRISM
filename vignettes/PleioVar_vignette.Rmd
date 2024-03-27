@@ -1,6 +1,6 @@
 ---
 title: "PleioVar vignette"
-output: rmarkdown::html_vignette
+output: github_document
 vignette: >
   %\VignetteIndexEntry{PleioVar_vignette}
   %\VignetteEngine{knitr::rmarkdown}
