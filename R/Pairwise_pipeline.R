@@ -25,6 +25,11 @@
 Pairwise_pipeline <- function(ListofTraits, ParametersTable, Index , sourceGWAS, NbCores, gzip, pU,  Minimum_MAF){
 
 
+  VAR = fread(paste0(RefFolder, "/Necessary_data/variants.tsv.bgz"),
+              select = c("variant", "chr", "pos", "ref", "alt", "rsid"))
+  VAR$chr=as.numeric(VAR$chr)
+  VAR <- VAR[VAR$variant %in% Index$variant,]
+  gc()
 
 
     CharcClassif <- function(A){
@@ -80,7 +85,7 @@ Pairwise_pipeline <- function(ListofTraits, ParametersTable, Index , sourceGWAS,
 
 
 
-      }else{ #Let's use LHC-MR code to get the Zscores
+      }else{ #Let's use LHC-MR code to get the Zscores. Could be optimized
 
 
         X = dplyr::inner_join(X,VAR[,c(1:6)])
@@ -139,7 +144,7 @@ Pairwise_pipeline <- function(ListofTraits, ParametersTable, Index , sourceGWAS,
 
       rho <- ParametersTable$rhoXY[A]
 
-      M = nrow(Index) #Number of SNPs
+      M = nrow(df) #Number of SNPs
       rm(df)
       gc()
 
