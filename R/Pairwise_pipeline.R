@@ -135,7 +135,7 @@ Pairwise_pipeline <- function(ListofTraits, ParametersTable, Index , sourceGWAS,
       }else{message("X sample size was not found")}
 
       if("nY" %in% colnames(ParametersTable)){nY <- ParametersTable$nY[A]
-      }else if("N.y" %in% colnames(df)){ny <- unique(df$`N.y`)
+      }else if("N.y" %in% colnames(df)){nY <- unique(df$`N.y`)
       }else if("nY" %in% colnames(df)){nY <- unique(df$nY)
       }else{message("Y sample size was not found")}
 
