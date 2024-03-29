@@ -92,15 +92,15 @@ Pairwise_pipeline <- function(ListofTraits, ParametersTable, Index , sourceGWAS,
         Y = dplyr::inner_join(Y,VAR[,c(1:6)])
 
         ## File paths needed for the analysis
-        LD.filepath = paste0(RefFolder, "/Necessary_data/LDscores_filtered.csv") # LD scores
-        rho.filepath = paste0(RefFolder, "/Necessary_data/LD_GM2_2prm.csv") # local/SNP-specific LD scores
+        LD.filepath = paste0("Necessary_data/LDscores_filtered.csv") # LD scores
+        rho.filepath = paste0("Necessary_data/LD_GM2_2prm.csv") # local/SNP-specific LD scores
 
 
 
 
 
-        ld = paste0(RefFolder, "/Necessary_data/eur_w_ld_chr/")  #LD information
-        hm3 = paste0(RefFolder, "/Necessary_data/w_hm3.snplist")
+        ld = paste0("Necessary_data/eur_w_ld_chr/")  #LD information
+        hm3 = paste0("Necessary_data/w_hm3.snplist")
 
 
         ## Step 1
