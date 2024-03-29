@@ -186,7 +186,7 @@ lhcmrLoop <- function(A, NbCores, Minimum_MAF = 0.05, run_ldsc = T, run_MR = T){
                nCores = NbCores, run_ldsc, run_MR) #The actual optimisation
   
   res$nX <- c(unique(df$`N.x`), NA, NA)
-  res$nY <- c(unique(df$`N.Y`), NA, NA)
+  res$nY <- c(unique(df$`N.y`), NA, NA)
 
   Nom = paste0("ResultsLHCMR_", Trait1, "_", Trait2)
   save(res, file = Nom)
