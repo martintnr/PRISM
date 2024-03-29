@@ -1,6 +1,7 @@
 ---
 title: "PleioVar vignette"
 output: github_document
+keep_md: true
 vignette: >
   %\VignetteIndexEntry{PleioVar_vignette}
   %\VignetteEngine{knitr::rmarkdown}
@@ -77,18 +78,19 @@ if(!file.exists("LHCMR_Results")){system("mkdir LHCMR_Results")}
 Next, you have to indicate the path of your GWAS data and the traits you want to process.  
 For this example, I will use LDL, HDL, and CAD from UKBiobank round 2.  
 You should use LHC-MR (https://github.com/LizaDarrous/lhcMR) guidelines to format your data.  
-Please format and rename your GWAS data to *Trait*.csv, *Trait*.csv.gz, or *Trait*.csv.bgz.  
+Please format your GWAS data to begin with *Trait*. (the default UKBiobank round 2 format works). If multiple files in the folder begins with the same prefix, please remove or rename the 
+Both .tsv and .csv formats are acceptable, and the data can be gzipped (.gz or .bgz).
 
 ```{r setup5, eval = FALSE}
 
 #system("mkdir GWAS_data")
 
-#system("wget -O HDL.csv.bgz  https://broad-ukb-sumstats-us-east-1.s3.amazonaws.com/round2/additive-tsvs/30760_irnt.gwas.imputed_v3.both_sexes.varorder.tsv.bgz")
+#system("wget -O HDL.tsv.bgz  https://broad-ukb-sumstats-us-east-1.s3.amazonaws.com/round2/additive-tsvs/30760_irnt.gwas.imputed_v3.both_sexes.varorder.tsv.bgz")
 
 
-#system("wget -O LDL.csv.bgz  https://broad-ukb-sumstats-us-east-1.s3.amazonaws.com/round2/additive-tsvs/30780_irnt.gwas.imputed_v3.both_sexes.varorder.tsv.bgz")
+#system("wget -O LDL.tsv.bgz  https://broad-ukb-sumstats-us-east-1.s3.amazonaws.com/round2/additive-tsvs/30780_irnt.gwas.imputed_v3.both_sexes.varorder.tsv.bgz")
 
-#system("wget -O CAD.csv.bgz  https://broad-ukb-sumstats-us-east-1.s3.amazonaws.com/round2/additive-tsvs/I25.gwas.imputed_v3.both_sexes.tsv.bgz")
+#system("wget -O CAD.tsv.bgz  https://broad-ukb-sumstats-us-east-1.s3.amazonaws.com/round2/additive-tsvs/I25.gwas.imputed_v3.both_sexes.tsv.bgz")
 
 #system("mv *.bgz  GWAS_data/")
 
@@ -193,6 +195,9 @@ lhcmrLoop <- function(A, NbCores, Minimum_MAF = 0.05, run_ldsc = T, run_MR = T){
   res = lhc_mr(SP_list, trait.names, paral_method= "lapply", nBlock=200, 
                nCores = NbCores, run_ldsc, run_MR) #The actual optimisation
   
+  res$nX <- c(unique(df$`N.x`), NA, NA)
+  res$nY <- c(unique(df$`N.Y`), NA, NA)
+
   Nom = paste0("ResultsLHCMR_", Trait1, "_", Trait2)
   save(res, file = Nom)
   

@@ -27,10 +27,17 @@ Format_parameters_table <- function(AllPairs, resdir, rhoXY = 0){
 
     if(length(rhoXY) == nrow(AllPairs)){rhoXY_ip <- rhoXY[A] }
 
+    if("nX" %in% colnames(res) & "nY" %in% colnames(res)){
     params <- c(Trait1, Trait2,
                 res[1,"iX"], res[1,"piX"],res[1,"h2X"],res[1,"tX"],res[1,"axy"],res[3,"axy"],res[1,"nX"],
                 res[1,"iY"], res[1,"piY"],res[1,"h2Y"],res[1,"tY"],res[1,"ayx"],res[3,"ayx"],res[1,"nY"],
                 rhoXY_ip)
+    }else{
+      params <- c(Trait1, Trait2,
+                  res[1,"iX"], res[1,"piX"],res[1,"h2X"],res[1,"tX"],res[1,"axy"],res[3,"axy"],
+                  res[1,"iY"], res[1,"piY"],res[1,"h2Y"],res[1,"tY"],res[1,"ayx"],res[3,"ayx"],
+                  rhoXY_ip)
+      }
 
     return(params)
   }

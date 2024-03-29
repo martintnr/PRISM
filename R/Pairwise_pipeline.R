@@ -67,11 +67,7 @@ Pairwise_pipeline <- function(ListofTraits, ParametersTable, Index , sourceGWAS,
       }
 
 
-      nX <- ParametersTable$nX[A]
-      nY <- ParametersTable$nY[A]
-      rho <- ParametersTable$rhoXY[A]
 
-      M = nrow(Index) #Number of SNPs
 
       if("Zscore" %in% colnames(X) & "Zscore" %in% colnames(Y)){
         df <- merge(X , Y, by = "variant", sort = F)
@@ -81,8 +77,7 @@ Pairwise_pipeline <- function(ListofTraits, ParametersTable, Index , sourceGWAS,
         bY = df$Zscore.y  #Effects of trait Y
         ld = df$LDscore
         Variants <- df$variant
-        rm(df)
-        gc()
+
 
 
       }else{ #Let's use LHC-MR code to get the Zscores
@@ -121,8 +116,7 @@ Pairwise_pipeline <- function(ListofTraits, ParametersTable, Index , sourceGWAS,
         rm(X)
         rm(Y)
         rm(input.files)
-        rm(df)
-        gc()
+
 
 
         message("Zscores were recalculated")
@@ -130,8 +124,24 @@ Pairwise_pipeline <- function(ListofTraits, ParametersTable, Index , sourceGWAS,
 
       }
 
+      if("nX" %in% colnames(ParametersTable)){nX <- ParametersTable$nX[A]
+      }else if("N.x" %in% colnames(df)){nX <- unique(df$`N.x`)
+      }else if("nX" %in% colnames(df)){nX <- unique(df$nX)
+      }else{message("X sample size was not found")}
+
+      if("nY" %in% colnames(ParametersTable)){nY <- ParametersTable$nY[A]
+      }else if("N.y" %in% colnames(df)){ny <- unique(df$`N.y`)
+      }else if("nY" %in% colnames(df)){nY <- unique(df$nY)
+      }else{message("Y sample size was not found")}
+
+      if(length(nX) != 1 | length(nY) != 1){message("PleioVar cannot handle different sample sizes between variants of a trait")}
 
 
+      rho <- ParametersTable$rhoXY[A]
+
+      M = nrow(Index) #Number of SNPs
+      rm(df)
+      gc()
 
 
 
