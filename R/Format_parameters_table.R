@@ -40,7 +40,7 @@ Format_parameters_table <- function(AllPairs, resdir, rhoXY = 0){
 
     if(FALSE %in% (c("iX", "piX", "h2X", "tX", "axy", "iY", "piY", "h2Y", "tY", "ayx") %in% colnames(res))){
       message("Some parameters seem to be missing from LHC-MR results for the pair ", Trait1, " and ", Trait2,
-              ". It can happen when LHC-MR does not converge. This pair will be skipped during for PleioVar processing.")
+              ". It can happen when LHC-MR does not converge. This pair will be skipped during PleioVar processing.")
       return(NULL)
     }
 
