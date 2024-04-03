@@ -24,12 +24,13 @@
 #'
 Pairwise_pipeline <- function(ListofTraits, ParametersTable, Index , sourceGWAS, NbCores, gzip, pU,  Minimum_MAF){
 
-
-  VAR = fread(paste0("Necessary_data/variants.tsv.bgz"),
-              select = c("variant", "chr", "pos", "ref", "alt", "rsid"))
-  VAR$chr=as.numeric(VAR$chr)
-  VAR <- VAR[VAR$variant %in% Index$variant,]
-  gc()
+  if(file.exists("Necessary_data/variants.tsv.bgz")){
+    VAR = fread(paste0("Necessary_data/variants.tsv.bgz"),
+                select = c("variant", "chr", "pos", "ref", "alt", "rsid"))
+    VAR$chr=as.numeric(VAR$chr)
+    VAR <- VAR[VAR$variant %in% Index$variant,]
+    gc()
+  }
 
 
     CharcClassif <- function(A){
