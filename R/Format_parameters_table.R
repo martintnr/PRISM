@@ -30,7 +30,7 @@ Format_parameters_table <- function(AllPairs, resdir, rhoXY = 0){
                        " to correspond to the LHCMR results file.")
 
       }else{ message("Result file was not found for the pair ", Trait1, " and ", Trait2,
-                     ". This pair will be skipped during for PleioVar processing.")}
+                     ". This pair will be skipped during PleioVar processing.")}
 
 
     rhoXY_ip <- rhoXY

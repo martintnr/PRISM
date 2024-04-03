@@ -26,6 +26,7 @@
 #' We advise to set gzip = T in this case. FALSE if you want to remove them.
 #' @param sourceGWAS The folder where GWAS summary statistics files are held.
 #' @param Minimum_MAF Genetic variants with minimum allele frequency below this value will be filtered out.
+#' @param skipPairwise TRUE if you only want to execute the traitwise pipeline.
 #'
 #' @return
 #' @export
@@ -35,7 +36,7 @@
 #'
 PleioVar_main <- function(ListofTraits, ParametersTable, Index, sourceGWAS = getwd() ,NbCores = 1, gzip = F,
                           pU = 1e-05, ThreshSelectionPvalues = 5e-08/length(ListofTraits),
-                          keepIntermediateFiles = F,  Minimum_MAF = 0.05){
+                          keepIntermediateFiles = F,  Minimum_MAF = 0.05, skipPairwise = F){
 
 
   if(!file.exists("Pairwise/")){system("mkdir Pairwise")}
@@ -51,16 +52,20 @@ PleioVar_main <- function(ListofTraits, ParametersTable, Index, sourceGWAS = get
 
 
   if(length(ListofTraits) < 31){
-    message(paste0(length(ListofTraits)), " were submitted, which is less than the 31 traits recommended. Power and accuracy will be reduced")
+    message(paste0(length(ListofTraits)), "traits were submitted, which is less than the 31 traits recommended. Power and accuracy will be reduced")
     }
 
   # PleioVar is separated in two parts
+
+  if(skipPairwise == F){
   message("Executing pairwise pipeline...")
 
 
   Pairwise_pipeline(ListofTraits, ParametersTable, Index, sourceGWAS,NbCores, gzip, pU,  Minimum_MAF)
 
   message("Pairwise pipeline was successful")
+
+  }else{  message("Pairwise pipeline was skipped, as instructed")}
 
   message("Executing traitwise pipeline...")
 
