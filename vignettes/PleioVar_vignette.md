@@ -68,8 +68,9 @@ You should use LHC-MR (<https://github.com/LizaDarrous/lhcMR>)
 guidelines to format your data.  
 Please format your GWAS data to begin with *Trait*. (the default
 UKBiobank round 2 format works). If multiple files in the folder begins
-with the same prefix, please remove or rename the Both .tsv and .csv
-formats are acceptable, and the data can be gzipped (.gz or .bgz).
+with the same prefix, please remove or rename the duplicates.  
+Both .tsv and .csv formats are acceptable, and the data can be gzipped
+(.gz or .bgz).
 
 ``` r
 
@@ -234,7 +235,7 @@ ListofTraits <- unique(c(ParametersTable$X, ParametersTable$Y))
 ```
 
 The final step is to run the PleioVar pipeline.  
-If you have a Zscore column in your GWAS data, PleioVar will process
+If you have a *Zscore* column in your GWAS data, PleioVar will process
 them.  
 If you do not, the Zscores will be computed with
 $\frac{tstat}{\sqrt{(sample \ size)}}$. If you formatted your data
