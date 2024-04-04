@@ -52,7 +52,7 @@ PleioVar_main <- function(ListofTraits, ParametersTable, Index, sourceGWAS = get
 
 
   if(length(ListofTraits) < 31){
-    message(paste0(length(ListofTraits)), "traits were submitted, which is less than the 31 traits recommended. Power and accuracy will be reduced")
+    message(paste0(length(ListofTraits)), " traits were submitted, which is less than the 31 traits recommended. Power and accuracy will be reduced")
     }
 
   # PleioVar is separated in two parts
