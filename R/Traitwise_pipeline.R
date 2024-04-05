@@ -43,7 +43,7 @@ Traitwise_pipeline <- function(ListofTraits, ParametersTable, Index ,NbCores, gz
 
 
     file.ls <- list.files(path="Pairwise", pattern=paste0("_",TRAIT, "_"))
-    file.ls <- c(file.ls, list.files(path="Pairwise", pattern=paste0("_",TRAIT, ".csv")) )
+    file.ls <- c(file.ls, list.files(path="Pairwise", pattern=paste0("_",TRAIT, "\\.csv")) )
 
     file.ls <- grep(paste0("^SNP_Scores_"), file.ls, value = TRUE)
 
