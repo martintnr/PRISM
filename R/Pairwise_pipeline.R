@@ -44,8 +44,14 @@ Pairwise_pipeline <- function(ListofTraits, ParametersTable, Index , sourceGWAS,
 
       print(paste0("Pair ", Trait1, " ", Trait2))
 
-      path1 <- paste0(sourceGWAS, list.files(sourceGWAS, pattern = paste0("^",Trait1,".")))
-      path2 <- paste0(sourceGWAS, list.files(sourceGWAS, pattern = paste0("^",Trait2,".")))
+      path1 <- paste0(sourceGWAS, list.files(sourceGWAS, pattern = paste0("^",Trait1,"\\.")))
+      path2 <- paste0(sourceGWAS, list.files(sourceGWAS, pattern = paste0("^",Trait2,"\\.")))
+
+      if(length(path1) != 1){message(paste0("WARNING: Paths should be unique. This path, for ", Trait1, ", is not: ") )
+        print(path1)}
+      if(length(path2) != 1){message(paste0("WARNING: Paths should be unique. This path, for ", Trait2, ", is not: "))
+        print(path2)}
+
 
       X <- fread(path1)
       Y <- fread(path2)
