@@ -42,6 +42,11 @@ Pairwise_pipeline <- function(ListofTraits, ParametersTable, Index , sourceGWAS,
       Trait1 <-  ParametersTable$X[A]
       Trait2 <-  ParametersTable$Y[A]
 
+      if(file.exists( paste0("Pairwise/SNP_Scores_", Trait1, "_", Trait2,".csv.gz")) | file.exists( paste0("Pairwise/SNP_Scores_", Trait1, "_", Trait2,".csv"))){
+      print(paste0("Pair ", Trait1, " ", Trait2, " already exists. Skipped."))
+        return(NA)
+    }
+
       print(paste0("Pair ", Trait1, " ", Trait2))
 
       path1 <- paste0(sourceGWAS, list.files(sourceGWAS, pattern = paste0("^",Trait1,"\\.")))
