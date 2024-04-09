@@ -46,7 +46,7 @@ PleioVar_main <- function(ListofTraits, ParametersTable, Index, sourceGWAS = get
 
   if(length(list.files("Pairwise/")) != 0 | length(list.files("Traitwise/")) != 0){
     print("Error: the Pairwise/ and Traitwise/ folders must be empty")
-    return()
+  #  return()
   }
   # We set up the folder architecture
 
