@@ -192,7 +192,6 @@ Traitwise_pipeline <- function(ListofTraits, ParametersTable, Index ,sourceGWAS,
 
     if(labelGWASsig == T){
 
-
       DepartMSD <- fread(paste0(sourceGWAS, list.files(sourceGWAS, pattern = paste0("^",TRAIT,"\\."))))
 
     Somme <- merge(MSD[, c("variant","PX")],  DepartMSD[, c("variant","pval")], by = "variant")
