@@ -15,7 +15,8 @@ PleioVar_main(
   ThreshSelectionPvalues = 5e-08/length(ListofTraits),
   keepIntermediateFiles = F,
   Minimum_MAF = 0.05,
-  skipPairwise = F
+  skipPairwise = F,
+  labelGWASsig = F
 )
 }
 \arguments{
@@ -49,6 +50,9 @@ We advise to set gzip = T in this case. FALSE if you want to remove them.}
 \item{Minimum_MAF}{Genetic variants with minimum allele frequency below this value will be filtered out.}
 
 \item{skipPairwise}{TRUE if you only want to execute the traitwise pipeline.}
+
+\item{labelGWASsig}{TRUE if you want to also label variants that are not PleioVar significant but are GWAS significant with the same threshold.
+A "variant" and a "pval" columns are necessary in the GWAS summary statistics files.}
 }
 \description{
 `PleioVar_main()` is the main function of PleioVar, that takes as input the list of traits to process,

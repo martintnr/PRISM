@@ -8,10 +8,12 @@ Traitwise_pipeline(
   ListofTraits,
   ParametersTable,
   Index,
+  sourceGWAS,
   NbCores,
   gzip,
   pU,
-  ThreshSelectionPvalues
+  ThreshSelectionPvalues,
+  labelGWASsig
 )
 }
 \arguments{
@@ -21,6 +23,8 @@ Traitwise_pipeline(
 
 \item{Index}{A dataframe with all variants and their LDscores.}
 
+\item{sourceGWAS}{The folder where GWAS summary statistics files are held.}
+
 \item{NbCores}{The number of cores to use.}
 
 \item{gzip}{TRUE to gzip created files, FALSE otherwise.}
@@ -28,6 +32,8 @@ Traitwise_pipeline(
 \item{pU}{Polygenicity of the confounder U.}
 
 \item{ThreshSelectionPvalues}{P-value threshold to select PleioVar top variants.}
+
+\item{labelGWASsig}{TRUE if you want to label variants that are not PleioVar significant but are GWAS significant.}
 }
 \description{
 `Traitwise_pipeline()` handles the traitwise process of PleioVar. It takes as input
