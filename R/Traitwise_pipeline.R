@@ -197,7 +197,7 @@ Traitwise_pipeline <- function(ListofTraits, ParametersTable, Index ,sourceGWAS,
     Somme <- merge(MSD[, c("variant","PX")],  DepartMSD[, c("variant","pval")], by = "variant")
     rm(DepartMSD)
     gc()
-    Somme <- Somme[Somme$pval < TreshSelectionPvalues | Somme$PX < TreshSelectionPvalues]
+    Somme <- Somme[Somme$pval < ThreshSelectionPvalues | Somme$PX < ThreshSelectionPvalues,]
     TopVar <- Somme$variant
     rm(Somme)
     gc()
