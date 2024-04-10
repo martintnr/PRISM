@@ -162,7 +162,7 @@ Traitwise_pipeline <- function(ListofTraits, ParametersTable, Index ,sourceGWAS,
 
     #On ne garde que les variants et le pX
     MSD_full <- MSD_full[,c("variant", "PX")]
-    write.table(MSD, file = paste0("Traitwise/Pvalues_", TRAIT, ".csv"), sep=",", quote=F, row.names=F, col.names = T)
+    write.table(MSD_full, file = paste0("Traitwise/Pvalues_", TRAIT, ".csv"), sep=",", quote=F, row.names=F, col.names = T)
 
 
     if(gzip == T){
