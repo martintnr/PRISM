@@ -27,6 +27,8 @@
 #' @param sourceGWAS The folder where GWAS summary statistics files are held.
 #' @param Minimum_MAF Genetic variants with minimum allele frequency below this value will be filtered out.
 #' @param skipPairwise TRUE if you only want to execute the traitwise pipeline.
+#' @param labelGWASsig TRUE if you want to also label variants that are not PleioVar significant but are GWAS significant with the same threshold.
+#' A "variant" and a "pval" columns are necessary in the GWAS summary statistics files.
 #'
 #' @return
 #' @export
@@ -36,7 +38,7 @@
 #'
 PleioVar_main <- function(ListofTraits, ParametersTable, Index, sourceGWAS = getwd() ,NbCores = 1, gzip = F,
                           pU = 1e-05, ThreshSelectionPvalues = 5e-08/length(ListofTraits),
-                          keepIntermediateFiles = F,  Minimum_MAF = 0.05, skipPairwise = F){
+                          keepIntermediateFiles = F,  Minimum_MAF = 0.05, skipPairwise = F, labelGWASsig = F){
 
 
   if(!file.exists("Pairwise/")){system("mkdir Pairwise")}
@@ -45,7 +47,7 @@ PleioVar_main <- function(ListofTraits, ParametersTable, Index, sourceGWAS = get
 
 
   if(length(list.files("Pairwise/")) != 0 | length(list.files("Traitwise/")) != 0){
-    print("Error: the Pairwise/ and Traitwise/ folders must be empty")
+    print("Error: the Pairwise/ and Traitwise/ folders should be empty")
   #  return()
   }
   # We set up the folder architecture

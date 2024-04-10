@@ -16,12 +16,14 @@
 #' @param gzip TRUE to gzip created files, FALSE otherwise.
 #' @param pU Polygenicity of the confounder U.
 #' @param ThreshSelectionPvalues P-value threshold to select PleioVar top variants.
+#' @param sourceGWAS The folder where GWAS summary statistics files are held.
+#' @param labelGWASsig TRUE if you want to label variants that are not PleioVar significant but are GWAS significant.
 #'
 #' @return
 #' @export
 #'
 #' @examples
-Traitwise_pipeline <- function(ListofTraits, ParametersTable, Index ,NbCores, gzip, pU, ThreshSelectionPvalues){
+Traitwise_pipeline <- function(ListofTraits, ParametersTable, Index ,sourceGWAS, NbCores, gzip, pU, ThreshSelectionPvalues, labelGWASsig){
 
   TableBase <- c(Index$variant)
 
@@ -187,6 +189,20 @@ Traitwise_pipeline <- function(ListofTraits, ParametersTable, Index ,NbCores, gz
     MSD <- fread(path)
 
     TopVar <- MSD$variant[MSD$PX < ThreshSelectionPvalues]
+
+    if(labelGWASsig == T){
+
+
+      DepartMSD <- fread(paste0(sourceGWAS, list.files(sourceGWAS, pattern = paste0("^",TRAIT,"\\."))))
+
+    Somme <- merge(MSD[, c("variant","PX")],  DepartMSD[, c("variant","pval")], by = "variant")
+    rm(DepartMSD)
+    gc()
+    Somme <- Somme[Somme$pval < TreshSelectionPvalues | Somme$PX < TreshSelectionPvalues]
+    TopVar <- Somme$variant
+    rm(Somme)
+    gc()
+    }
 
     ### Vertical
 
