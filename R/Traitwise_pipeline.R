@@ -33,6 +33,12 @@ Traitwise_pipeline <- function(ListofTraits, ParametersTable, Index ,sourceGWAS,
 
     # Synthese
     TRAIT <- X
+
+    if(file.exists( paste0("Traitwise/Pvalues_", TRAIT, ".csv")) | file.exists(paste0("Traitwise/Pvalues_", TRAIT, ".csv.gz"))){
+      print(paste0("Pvalues for", TRAIT, " already exist. Skipped."))
+      return(NA)
+    }
+
     print(paste0(TRAIT, " synthesis"))
     print(paste0("gzip is ", gzip))
 
