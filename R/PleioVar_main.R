@@ -63,7 +63,7 @@ PleioVar_main <- function(ListofTraits, ParametersTable, Index, sourceGWAS = get
   message("Executing pairwise pipeline...")
 
 
-  Pairwise_pipeline(ListofTraits, ParametersTable, Index, sourceGWAS,NbCores, gzip, pU,  Minimum_MAF)
+  Pairwise_pipeline(ListofTraits, ParametersTable, Index , sourceGWAS, NbCores, gzip, pU,  Minimum_MAF)
 
   message("Pairwise pipeline was successful")
 
@@ -71,7 +71,7 @@ PleioVar_main <- function(ListofTraits, ParametersTable, Index, sourceGWAS = get
 
   message("Executing traitwise pipeline...")
 
-  Traitwise_pipeline(ListofTraits, ParametersTable, Index, NbCores, gzip, pU, ThreshSelectionPvalues)
+  Traitwise_pipeline(ListofTraits, ParametersTable, Index ,sourceGWAS, NbCores, gzip, pU, ThreshSelectionPvalues, labelGWASsig)
 
   message("Traitwise pipeline was successful")
 
