@@ -55,7 +55,7 @@ Traitwise_pipeline <- function(ListofTraits, ParametersTable, Index ,sourceGWAS,
     for(FileNumber in c(1:length(file.ls))){
 
       gc()
-      # print(FileNumber)
+       print(FileNumber)
       Scores <- fread(paste0("Pairwise/",file.ls[FileNumber]))
 
       TableRecapOm2 <- cbind(TableRecapOm2, Scores$CatCharc)
@@ -72,6 +72,7 @@ Traitwise_pipeline <- function(ListofTraits, ParametersTable, Index ,sourceGWAS,
 
 
     }
+    print("Synth done")
 
     file.ls <- gsub(pattern = paste0("(.*SNP_Scores_)(.*)(.csv.*)"), replacement = "\\2",  x = file.ls)
     file.ls <- str_remove_all(file.ls, paste0(TRAIT,"_"))
@@ -85,11 +86,12 @@ Traitwise_pipeline <- function(ListofTraits, ParametersTable, Index ,sourceGWAS,
 
 
 
-    write.table(TableBaseOEffect, file = paste0("Traitwise/Synthese_OEffect_", TRAIT,".csv"), sep=",", quote=F, row.names=F, col.names = T)
-    write.table(TableBaseXEffect, file = paste0("Traitwise/Synthese_XEffect_", TRAIT,".csv"), sep=",", quote=F, row.names=F, col.names = T)
-    write.table(TableBaseUEffect, file = paste0("Traitwise/Synthese_UEffect_", TRAIT,".csv"), sep=",", quote=F, row.names=F, col.names = T)
-    write.table(TableRecapOm2, file = paste0("Traitwise/Synthese_CatCharc_", TRAIT,".csv"), sep=",", quote=F, row.names=F, col.names = T)
+  #  write.table(TableBaseOEffect, file = paste0("Traitwise/Synthese_OEffect_", TRAIT,".csv"), sep=",", quote=F, row.names=F, col.names = T)
+  #  write.table(TableBaseXEffect, file = paste0("Traitwise/Synthese_XEffect_", TRAIT,".csv"), sep=",", quote=F, row.names=F, col.names = T)
+   # write.table(TableBaseUEffect, file = paste0("Traitwise/Synthese_UEffect_", TRAIT,".csv"), sep=",", quote=F, row.names=F, col.names = T)
+   # write.table(TableRecapOm2, file = paste0("Traitwise/Synthese_CatCharc_", TRAIT,".csv"), sep=",", quote=F, row.names=F, col.names = T)
 
+    print("Start gzip S")
 
     if(gzip == T){
       tryCatch(
@@ -129,6 +131,7 @@ Traitwise_pipeline <- function(ListofTraits, ParametersTable, Index ,sourceGWAS,
     MSD$sdX <- rowSds(as.matrix(TableBaseXEffect[, Range]), na.rm = TRUE)
 #    MSD$meanU <-  rowMeans(TableBaseUEffect[, Range])
  #   MSD$sdU <- rowSds(as.matrix(TableBaseUEffect[, Range]), na.rm = TRUE)
+    print("Start pval")
 
 
     TEST <- function(SNP){ #Paired T-test of the direct effect of the variant on the trait
@@ -152,6 +155,7 @@ Traitwise_pipeline <- function(ListofTraits, ParametersTable, Index ,sourceGWAS,
       P <- student$p.value
       return(P)
     }
+    print("end pval")
 
     ResX <- mclapply(X = c(1:nrow(MSD)), FUN = TEST, mc.cores = NbCores)  #Le tableau total
     MSD$PX <- as.numeric(ResX)
@@ -164,6 +168,7 @@ Traitwise_pipeline <- function(ListofTraits, ParametersTable, Index ,sourceGWAS,
     MSD_full <- MSD_full[,c("variant", "PX")]
     write.table(MSD_full, file = paste0("Traitwise/Pvalues_", TRAIT, ".csv"), sep=",", quote=F, row.names=F, col.names = T)
 
+    print("start gzip")
 
     if(gzip == T){
       tryCatch(
@@ -323,11 +328,11 @@ Traitwise_pipeline <- function(ListofTraits, ParametersTable, Index ,sourceGWAS,
 
 
 
-  mclapply(X = ListofTraits, FUN = SyntheseTraits, mc.cores = 1)
+  lapply(X = ListofTraits, FUN = SyntheseTraits)
 
 
 
 
-  mclapply(X = ListofTraits, FUN = Analyse, mc.cores =  1)
+  lapply(X = ListofTraits, FUN = Analyse)
 
 }
