@@ -34,6 +34,7 @@ Traitwise_pipeline <- function(ListofTraits, ParametersTable, Index ,sourceGWAS,
     # Synthese
     TRAIT <- X
     print(paste0(TRAIT, " synthesis"))
+    print(paste0("gzip is ", gzip))
 
     gc()
     TableBaseOEffect <- as_tibble(TableBase)
@@ -92,8 +93,10 @@ Traitwise_pipeline <- function(ListofTraits, ParametersTable, Index ,sourceGWAS,
     write.table(TableRecapOm2, file = paste0("Traitwise/Synthese_CatCharc_", TRAIT,".csv"), sep=",", quote=F, row.names=F, col.names = T)
 
     print("Start gzip S")
+    print(gzip)
 
     if(gzip == T){
+      print("gzip loop entered")
       tryCatch(
         {     system(paste0("gzip Traitwise/Synthese_*", "_",TRAIT,".csv"))
 
