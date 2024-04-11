@@ -158,10 +158,10 @@ Traitwise_pipeline <- function(ListofTraits, ParametersTable, Index ,sourceGWAS,
       P <- student$p.value
       return(P)
     }
-    print("end pval")
 
     ResX <- mclapply(X = c(1:nrow(MSD)), FUN = TEST, mc.cores = NbCores)  #Le tableau total
     MSD$PX <- as.numeric(ResX)
+    print("end pval")
 
 
     MSD_full <-  merge(Index, MSD, by.x = "variant", by.y = "variant", no.dups = TRUE, all.x = TRUE, sort = FALSE )
