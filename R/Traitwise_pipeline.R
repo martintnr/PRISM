@@ -86,10 +86,10 @@ Traitwise_pipeline <- function(ListofTraits, ParametersTable, Index ,sourceGWAS,
 
 
 
-  #  write.table(TableBaseOEffect, file = paste0("Traitwise/Synthese_OEffect_", TRAIT,".csv"), sep=",", quote=F, row.names=F, col.names = T)
-  #  write.table(TableBaseXEffect, file = paste0("Traitwise/Synthese_XEffect_", TRAIT,".csv"), sep=",", quote=F, row.names=F, col.names = T)
-   # write.table(TableBaseUEffect, file = paste0("Traitwise/Synthese_UEffect_", TRAIT,".csv"), sep=",", quote=F, row.names=F, col.names = T)
-   # write.table(TableRecapOm2, file = paste0("Traitwise/Synthese_CatCharc_", TRAIT,".csv"), sep=",", quote=F, row.names=F, col.names = T)
+    write.table(TableBaseOEffect, file = paste0("Traitwise/Synthese_OEffect_", TRAIT,".csv"), sep=",", quote=F, row.names=F, col.names = T)
+    write.table(TableBaseXEffect, file = paste0("Traitwise/Synthese_XEffect_", TRAIT,".csv"), sep=",", quote=F, row.names=F, col.names = T)
+    write.table(TableBaseUEffect, file = paste0("Traitwise/Synthese_UEffect_", TRAIT,".csv"), sep=",", quote=F, row.names=F, col.names = T)
+    write.table(TableRecapOm2, file = paste0("Traitwise/Synthese_CatCharc_", TRAIT,".csv"), sep=",", quote=F, row.names=F, col.names = T)
 
     print("Start gzip S")
 
