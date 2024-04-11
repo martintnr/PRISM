@@ -159,7 +159,7 @@ Traitwise_pipeline <- function(ListofTraits, ParametersTable, Index ,sourceGWAS,
       return(P)
     }
 
-    ResX <- mclapply(X = c(1:nrow(MSD)), FUN = TEST, mc.cores = NbCores)  #Le tableau total
+    ResX <- mclapply(X = c(1:nrow(MSD)), FUN = TEST, mc.cores = 1)  #Le tableau total
     MSD$PX <- as.numeric(ResX)
     print("end pval")
 
@@ -273,7 +273,7 @@ Traitwise_pipeline <- function(ListofTraits, ParametersTable, Index ,sourceGWAS,
 
 
     TopVar <- TopVar[TopVar %in% V_IDS_FULL$Omega_opti.INDEX]
-    VertP <- mclapply(X = unique(TopVar), FUN = quelVert,  mc.cores = NbCores)
+    VertP <- mclapply(X = unique(TopVar), FUN = quelVert,  mc.cores = 1)
     VertP <- as.data.frame(unlist(VertP))
     VertP$variant <- unique(TopVar)
     if(nrow(VertP) > 0){colnames(VertP) <- c("VertP", "variant")}
@@ -331,11 +331,11 @@ Traitwise_pipeline <- function(ListofTraits, ParametersTable, Index ,sourceGWAS,
 
 
 
-  lapply(X = ListofTraits, FUN = SyntheseTraits)
+  mclapply(X = ListofTraits, FUN = SyntheseTraits, mc.cores = NbCores)
 
 
 
 
-  lapply(X = ListofTraits, FUN = Analyse)
+  mclapply(X = ListofTraits, FUN = Analyse, mc.cores = NbCores)
 
 }
