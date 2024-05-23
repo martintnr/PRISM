@@ -1,78 +1,87 @@
-PleioVar vignette
-================
+---
+title: "PRISM vignette"
+output: github_document
+keep_md: true
+vignette: >
+  %\VignetteIndexEntry{PRISM_vignette}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
 
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+options(rmarkdown.html_vignette.check_title = FALSE)
+```
 ### Before we start
 
-This vignette is a tutorial to use PleioVar on your own data.  
-Before starting, a few points:
+This vignette is a tutorial to use PRISM on your own data.  
+Before starting, a few points:  
 
-- PleioVar relies on LHC-MR results as input parameters. You will have
-  to process your pairs of traits through LHC-MR before starting
-  PleioVar.  
-- LHC-MR is limited to HapMap3 variants, and so is PleioVar.
-- LHC-MR and PleioVar are computationally intensive methods, and
-  exponentially so the more traits you add. Parallel computing is highly
-  recommended.  
+  - PRISM relies on LHC-MR results as input parameters. You will have to process your pairs of traits
+through LHC-MR before starting PRISM.  
+  - LHC-MR is limited to HapMap3 variants, and so is PRISM.
+  - LHC-MR and PRISM are computationally intensive methods, and exponentially so the more traits you add. Parallel computing is highly recommended.   
+\n
 
 ### Installation
 
-First, let’s install devtools and PleioVar (if necessary).
-
-``` r
+First, let's install devtools and PRISM (if necessary).
+```{r setup1, eval = FALSE}
 if(!"devtools" %in% installed.packages()[, "Package"]) {
   install.packages("devtools") }
 
-  if(!"PleioVar" %in% installed.packages()[, "Package"]) {
-  devtools::install_github("martintnr/PleioVar") }
+  if(!"PRISM" %in% installed.packages()[, "Package"]) {
+  devtools::install_github("martintnr/PRISM") }
+
 ```
-
-Then, let’s install LHC-MR from <https://github.com/LizaDarrous/lhcMR>
-and its dependencies.
-
-``` r
+\n
+Then, let's install LHC-MR from https://github.com/LizaDarrous/lhcMR and its dependencies.
+```{r setup2, eval = FALSE}
 devtools::install_github("MRCIEU/TwoSampleMR")
 devtools::install_github("GenomicSEM/GenomicSEM")
 
 devtools::install_github("LizaDarrous/lhcMR")
+
 ```
+\n
+
 
 ### Setting up the data
 
-Let’s create and use as working directory PleioVar_NewData folder that
-will be used to store necessary and temporary files.
+Let's create and use as working directory PRISM_NewData folder that will be used to store necessary and temporary files.
+```{r setup3, eval = FALSE}
 
-``` r
-
-if(!grepl("PleioVar_New", getwd(), fixed = TRUE)){
-if(!file.exists("PleioVar_New/")){system("mkdir PleioVar_New")}
-setwd("PleioVar_New")}
+if(!grepl("PRISM_New", getwd(), fixed = TRUE)){
+if(!file.exists("PRISM_New/")){system("mkdir PRISM_New")}
+setwd("PRISM_New")}
 ```
+\n
 
-Some data (like LD-scores) are required for PleioVar and its
-dependencies. Let’s download them from zenodo, and also create a folder
-for the future LHC-MR results.
-
-``` r
+Some data (like LD-scores) are required for PRISM and its dependencies. 
+Let's download them from zenodo, and also create a folder for the future LHC-MR results.
+```{r setup4, eval = FALSE}
 
 system("wget -O Necessary_data.zip  https://zenodo.org/records/10829652/files/Necessary_data.zip?download=1")
 system("unzip Necessary_data.zip -d Necessary_data && rm Necessary_data.zip")
 
 
 if(!file.exists("LHCMR_Results")){system("mkdir LHCMR_Results")}
+
+
+
 ```
+\n
 
-Next, you have to indicate the path of your GWAS data and the traits you
-want to process.  
+Next, you have to indicate the path of your GWAS data and the traits you want to process.  
 For this example, I will use LDL, HDL, and CAD from UKBiobank round 2.  
-You should use LHC-MR (<https://github.com/LizaDarrous/lhcMR>)
-guidelines to format your data.  
-Please format your GWAS data to begin with *Trait*. (the default
-UKBiobank round 2 format works). If multiple files in the folder begins
-with the same prefix, please remove or rename the duplicates.  
-Both .tsv and .csv formats are acceptable, and the data can be gzipped
-(.gz or .bgz).
+You should use LHC-MR (https://github.com/LizaDarrous/lhcMR) guidelines to format your data.  
+Please format your GWAS data to begin with *Trait*. (the default UKBiobank round 2 format works). If multiple files in the folder begins with the same prefix, please remove or rename the duplicates.  
+Both .tsv and .csv formats are acceptable, and the data can be gzipped (.gz or .bgz).
 
-``` r
+```{r setup5, eval = FALSE}
 
 #system("mkdir GWAS_data")
 
@@ -84,30 +93,30 @@ Both .tsv and .csv formats are acceptable, and the data can be gzipped
 #system("wget -O CAD.tsv.bgz  https://broad-ukb-sumstats-us-east-1.s3.amazonaws.com/round2/additive-tsvs/I25.gwas.imputed_v3.both_sexes.tsv.bgz")
 
 #system("mv *.bgz  GWAS_data/")
+
+
+
 ```
+\n
+
 
 ### Running LHC-MR on all pairs of traits
 
-First, please put the path to the folder containing your data in the
-`sourceGWAS` object, and a `ListeofTraits` vector with all your
-traits.  
+First, please put the path to the folder containing your data in the `sourceGWAS` object, and a `ListeofTraits` vector with all your traits.  
 The `AllPairs` object will contain all possible unique pairs of traits.
-
-``` r
+```{r exec1, eval = FALSE}
 # sourceGWAS <- "GWAS_data/"
 # ListofTraits <- c("LDL", "HDL", "CAD")
 AllPairs <- (t(combn(ListofTraits,2)))
 colnames(AllPairs) <- c("X", "Y")
 ```
+\n
 
-Now, you can process your traits with LHC-MR. The function below is
-simply a loop of the example from their github.  
-The `NbCores` parameter is passed to `lhc_mr()` and is very important to
-speed up calculation. Beware, a high number of cores will greatly speed
-up the process, but will also consume a lot of RAM.  
+Now, you can process your traits with LHC-MR. The function below is simply a loop of the example from their github.  
+The `NbCores` parameter is passed to `lhc_mr()` and is very important to speed up calculation. Beware, a high number of cores will greatly speed up the process, but will also consume a lot of RAM.  
 Results will be written in the `LHCMR_Results`folder.
 
-``` r
+```{r exec2, eval = FALSE}
   
   library(data.table)
   library(GenomicSEM)
@@ -207,14 +216,16 @@ lhcmrLoop <- function(A, NbCores, Minimum_MAF = 0.05, run_ldsc = T, run_MR = T){
 Range <- c(1:nrow(AllPairs))  
 
 lapply(X = Range, FUN = lhcmrLoop, NbCores = 1)
+
 ```
+\n
 
-### Running PleioVar
+### Running PRISM
 
-Let’s format the LHC-MR results in a PleioVar-friendly format, and
-gather the last necessary inputs.
+\n
 
-``` r
+Let's format the LHC-MR results in a PRISM-friendly format, and gather the last necessary inputs.
+```{r pv1, eval = FALSE}
 
 library(data.table)
 library(dplyr)
@@ -222,7 +233,7 @@ library(stats)
 library(stringr)
 library(parallel)
 library(matrixStats)
-library(PleioVar)
+library(PRISM)
 
 
 
@@ -233,19 +244,17 @@ ListofTraits <- unique(c(ParametersTable$X, ParametersTable$Y))
 
   
 ```
+\n
 
-The final step is to run the PleioVar pipeline.  
-If you have a *Zscore* column in your GWAS data, PleioVar will process
-them.  
-If you do not, the Zscores will be computed with
-$\frac{tstat}{\sqrt{(sample \ size)}}$. If you formatted your data
-according to LHC-MR guidelines and the previous steps worked, everything
-should run automatically.  
-As usual, a higher number of cores in the `NbCores` parameters will
-speed up calculation.
+The final step is to run the PRISM pipeline.  
+If you have a *Zscore* column in your GWAS data, PRISM will process them.  
+If you do not, the Zscores will be computed with $\frac{tstat}{\sqrt{(sample \ size)}}$. If you formatted your data according to LHC-MR guidelines and the previous steps worked, everything should run automatically.  
+As usual, a higher number of cores in the `NbCores` parameters will speed up calculation.
 
-``` r
+```{r pv2, eval = FALSE}
 
-PleioVar_main(ListofTraits, ParametersTable, Index , sourceGWAS = sourceGWAS,
+PRISM_main(ListofTraits, ParametersTable, Index , sourceGWAS = sourceGWAS,
               NbCores = 1, gzip = F, keepIntermediateFiles = F)
 ```
+
+

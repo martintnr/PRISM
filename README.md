@@ -9,6 +9,11 @@
 PRISM takes as input GWAS data and outputs pleiotropic labels for a list
 of variants.
 
+## Results visualization
+
+You can see PRISM results and the causal network of any variant on our
+[Shiny visualization tool](https://verbam01.shinyapps.io/PRISM/)
+
 ## Installation
 
 You can install the current version of PRISM like so:
