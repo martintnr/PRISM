@@ -13,7 +13,7 @@ knitr::opts_chunk$set(
 )
 ```
 
-# PRISM
+# PRISM: Pleiotropic Relationships to Infer the SNP Model
 
 <!-- badges: start -->
 <!-- badges: end -->

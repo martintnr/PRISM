@@ -1,7 +1,7 @@
-Package: PleioVar
+Package: PRISM
 Type: Package
-Title: PleioVar: Pleiotropic labels for genetic Variants
-Version: 0.1.7
+Title: PRISM: Pleiotropic Relationships to Infer the SNP Model
+Version: 0.1.8
 Authors@R: person("Martin", "Tournaire", email = "martin.tournaire@u-paris.fr",
                   role = c("aut", "cre"))
 Description: PleioVar takes as input GWAS data and outputs pleiotropic labels for genetic variants.

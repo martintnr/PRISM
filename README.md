@@ -1,7 +1,7 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-# PRISM
+# PRISM: Pleiotropic Relationships to Infer the SNP Model
 
 <!-- badges: start -->
 <!-- badges: end -->
