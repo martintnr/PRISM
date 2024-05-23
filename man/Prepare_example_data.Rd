@@ -11,5 +11,5 @@ Prepare_example_data(gzip = F)
 }
 \description{
 `Prepare_example_data()` creates a Data/ folder in the current working directory
-and writes the dataset necessary to run the PleioVar example.
+and writes the dataset necessary to run the PRISM example.
 }

@@ -1,12 +1,12 @@
 #' Format parameters table from LHC-MR results
 #' @description
-#' `Format_parameters_table()` format LHC-MR results to be PleioVar-friendly.
+#' `Format_parameters_table()` format LHC-MR results to be PRISM-friendly.
 #' It takes as input the results of the multiple loops of LHC-MR, and returns a unique table with all parameters.
 #' @param resdir The folder holding LHC-MR results.
-#' @param AllPairs A dataframe containing all unique pairs of traits that will be processed by PleioVar.
+#' @param AllPairs A dataframe containing all unique pairs of traits that will be processed by PRISM.
 #' @param rhoXY Akin to cross-trait LD score regression intercept. For now, 0 is advised.
 #'
-#' @return A PleioVar-friendly parameters table from LHC-MR results.
+#' @return A PRISM-friendly parameters table from LHC-MR results.
 #' @export
 #'
 #' @examples
@@ -30,7 +30,7 @@ Format_parameters_table <- function(AllPairs, resdir, rhoXY = 0){
                        " to correspond to the LHCMR results file.")
 
       }else{ message("Result file was not found for the pair ", Trait1, " and ", Trait2,
-                     ". This pair will be skipped during PleioVar processing.")}
+                     ". This pair will be skipped during PRISM processing.")}
 
 
     rhoXY_ip <- rhoXY
@@ -40,7 +40,7 @@ Format_parameters_table <- function(AllPairs, resdir, rhoXY = 0){
 
     if(FALSE %in% (c("iX", "piX", "h2X", "tX", "axy", "iY", "piY", "h2Y", "tY", "ayx") %in% colnames(res))){
       message("Some parameters seem to be missing from LHC-MR results for the pair ", Trait1, " and ", Trait2,
-              ". It can happen when LHC-MR does not converge. This pair will be skipped during PleioVar processing.")
+              ". It can happen when LHC-MR does not converge. This pair will be skipped during PRISM processing.")
       return(NULL)
     }
 

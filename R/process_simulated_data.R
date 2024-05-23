@@ -4,9 +4,9 @@ process_simulated_data <- function(){ #Nobody should use that, it was strictly f
 
 library(data.table)
 
-setwd("/home/PleioMap/Data/LHCMR/PleioVar_Scenarios/")
+setwd("/home/PleioMap/Data/LHCMR/PRISM_Scenarios/")
 
-VAR2 = fread( "/home/PleioMap/Data/LHCMR/PleioVarNext2/Likelihood/VAR_LIGHT")
+VAR2 = fread( "/home/PleioMap/Data/LHCMR/PRISMNext2/Likelihood/VAR_LIGHT")
 
 Traits <-rev(c("A", #Anciens traits triés
                "B1",
@@ -133,7 +133,7 @@ tabparams[,3:ncol(tabparams)] <-  as.numeric(unlist(tabparams[,3:ncol(tabparams)
 
 simulated_example_data <- list(listedata, tabparams)
 
-setwd("/home/martin/Script/PleioVar")
+setwd("/home/martin/Script/PRISM")
 
 usethis::use_data(simulated_example_data)
 
@@ -141,7 +141,7 @@ usethis::use_data(simulated_example_data)
 ##### Et l'index
 
 
-expemple <- fread(paste0("/home/PleioMap/Data/LHCMR/PleioVar_Scenarios/GWAS_Simulated/SimuDataFull_56_B4_1.csv.gz"))
+expemple <- fread(paste0("/home/PleioMap/Data/LHCMR/PRISM_Scenarios/GWAS_Simulated/SimuDataFull_56_B4_1.csv.gz"))
 Index <- VAR2[1:100000, c("variant")]
 Index$LDscore <- expemple$ld
 

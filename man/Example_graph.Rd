@@ -18,11 +18,11 @@ Example_graph(
 
 \item{ParametersTable}{The parameters table for each pair of traits.}
 
-\item{ThreshSelectionPvalues}{P-value threshold to select PleioVar top variants, if you do not want
+\item{ThreshSelectionPvalues}{P-value threshold to select PRISM top variants, if you do not want
 the default Bonferroni correction.}
 }
 \value{
-a ggplot of all genetic variants with GWAS p-value on the x-axis, PleioVar p-value
+a ggplot of all genetic variants with GWAS p-value on the x-axis, PRISM p-value
 on the y-axis, and colors according to pleiotropy.
 }
 \description{

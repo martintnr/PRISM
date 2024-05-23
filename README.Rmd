@@ -13,24 +13,24 @@ knitr::opts_chunk$set(
 )
 ```
 
-# PleioVar
+# PRISM
 
 <!-- badges: start -->
 <!-- badges: end -->
 
-PleioVar takes as input GWAS data and outputs pleiotropic labels for a list of variants.
+PRISM takes as input GWAS data and outputs pleiotropic labels for a list of variants.
 
 
 ## Installation
 
-You can install the current version of PleioVar like so:
+You can install the current version of PRISM like so:
 
 ``` r
   if(!"devtools" %in% installed.packages()[, "Package"]) {
   install.packages("devtools") }
 
-  if(!"PleioVar" %in% installed.packages()[, "Package"]) {
-  devtools::install_github("martintnr/PleioVar") }
+  if(!"PRISM" %in% installed.packages()[, "Package"]) {
+  devtools::install_github("martintnr/PRISM") }
 ```
 
 ## Example
@@ -46,12 +46,12 @@ library(stats)
 library(stringr)
 library(parallel)
 library(matrixStats)
-library(PleioVar)
+library(PRISM)
 
 
-if(!grepl("PleioVar_example", getwd(), fixed = TRUE)){
-if(!file.exists("PleioVar_example/")){system("mkdir PleioVar_example")}
-setwd("PleioVar_example")}
+if(!grepl("PRISM_example", getwd(), fixed = TRUE)){
+if(!file.exists("PRISM_example/")){system("mkdir PRISM_example")}
+setwd("PRISM_example")}
 
 Prepare_example_data(gzip = T)
 
@@ -60,14 +60,14 @@ Index <- fread("Data/Index.csv", header = T, sep = ",")
 
 ListofTraits <- unique(c(ParametersTable$X, ParametersTable$Y))
 
-PleioVar_main(ListofTraits, ParametersTable, Index , sourceGWAS = "Data/",
+PRISM_main(ListofTraits, ParametersTable, Index , sourceGWAS = "Data/",
               NbCores = 1, gzip = F, keepIntermediateFiles = F)
 
 
 ```
 
 
-In the Results/ folder can be found, for each trait, a file with variants, p-values from PleioVar, and pleiotropy annotation.  
+In the Results/ folder can be found, for each trait, a file with variants, p-values from PRISM, and pleiotropy annotation.  
 
 ```{r graph,  eval = FALSE}
 library(ggplot2)
@@ -79,4 +79,4 @@ print(Graph)
 
 
 
-If you want to use PleioVar on your own data, you can use this vignette: [https://github.com/martintnr/PleioVar/blob/main/vignettes/PleioVar_vignette.md]
+If you want to use PRISM on your own data, you can use this vignette: [https://github.com/martintnr/PRISM/blob/main/vignettes/PRISM_vignette.md]

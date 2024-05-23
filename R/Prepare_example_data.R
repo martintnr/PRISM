@@ -1,7 +1,7 @@
 #' Prepare example data
 #'
 #' `Prepare_example_data()` creates a Data/ folder in the current working directory
-#' and writes the dataset necessary to run the PleioVar example.
+#' and writes the dataset necessary to run the PRISM example.
 #'
 #' @param gzip TRUE if you want the example data to be gzipped, FALSE otherwise
 #'
@@ -10,10 +10,10 @@
 #'
 #' @examples
 Prepare_example_data <- function(gzip = F){
-  #setwd("/home/martin/Script/PleioVar")
+  #setwd("/home/martin/Script/PRISM")
   #load(file="data/simulated_example_data.rda")
   #load(file="data/Index.rda")
-  #setwd("/home/martin/Script/PleioVar/test")
+  #setwd("/home/martin/Script/PRISM/test")
 
   if(!file.exists("Data/")){system("mkdir Data")}
 

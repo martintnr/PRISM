@@ -7,16 +7,16 @@
 Format_parameters_table(AllPairs, resdir, rhoXY = 0)
 }
 \arguments{
-\item{AllPairs}{A dataframe containing all unique pairs of traits that will be processed by PleioVar.}
+\item{AllPairs}{A dataframe containing all unique pairs of traits that will be processed by PRISM.}
 
 \item{resdir}{The folder holding LHC-MR results.}
 
 \item{rhoXY}{Akin to cross-trait LD score regression intercept. For now, 0 is advised.}
 }
 \value{
-A PleioVar-friendly parameters table from LHC-MR results.
+A PRISM-friendly parameters table from LHC-MR results.
 }
 \description{
-`Format_parameters_table()` format LHC-MR results to be PleioVar-friendly.
+`Format_parameters_table()` format LHC-MR results to be PRISM-friendly.
 It takes as input the results of the multiple loops of LHC-MR, and returns a unique table with all parameters.
 }

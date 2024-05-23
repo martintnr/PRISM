@@ -1,11 +1,11 @@
-#' Pairwise pipeline of PleioVar
+#' Pairwise pipeline of PRISM
 #' @description
-#' `Pairwise_pipeline()` handles the pairwise process of PleioVar. It takes as input
+#' `Pairwise_pipeline()` handles the pairwise process of PRISM. It takes as input
 #' the data and outputs in the Traitwise/ folder the likelihoods and scores of
 #' each variant to belong to the different models, for each pair of traits.
 #'
 #'
-#' All parameters are passed from `PleioVar_main()` and are more detailed over there.
+#' All parameters are passed from `PRISM_main()` and are more detailed over there.
 #'
 #' @param ListofTraits The list of traits to be processed.
 #' @param ParametersTable The parameters table for each pair of traits.
@@ -151,7 +151,7 @@ Pairwise_pipeline <- function(ListofTraits, ParametersTable, Index , sourceGWAS,
       }else if("nY" %in% colnames(df)){nY <- unique(df$nY)
       }else{message("Y sample size was not found")}
 
-      if(length(nX) != 1 | length(nY) != 1){message("PleioVar cannot handle different sample sizes between variants of a trait")}
+      if(length(nX) != 1 | length(nY) != 1){message("PRISM cannot handle different sample sizes between variants of a trait")}
 
 
       rho <- ParametersTable$rhoXY[A]

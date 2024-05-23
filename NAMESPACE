@@ -2,7 +2,7 @@
 
 export(Example_graph)
 export(Format_parameters_table)
+export(PRISM_main)
 export(Pairwise_pipeline)
-export(PleioVar_main)
 export(Prepare_example_data)
 export(Traitwise_pipeline)

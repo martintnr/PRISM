@@ -2,7 +2,7 @@
 % Please edit documentation in R/Pairwise_pipeline.R
 \name{Pairwise_pipeline}
 \alias{Pairwise_pipeline}
-\title{Pairwise pipeline of PleioVar}
+\title{Pairwise pipeline of PRISM}
 \usage{
 Pairwise_pipeline(
   ListofTraits,
@@ -33,10 +33,10 @@ Pairwise_pipeline(
 \item{Minimum_MAF}{Genetic variants with minimum allele frequency below this value will be filtered out.}
 }
 \description{
-`Pairwise_pipeline()` handles the pairwise process of PleioVar. It takes as input
+`Pairwise_pipeline()` handles the pairwise process of PRISM. It takes as input
 the data and outputs in the Traitwise/ folder the likelihoods and scores of
 each variant to belong to the different models, for each pair of traits.
 
 
-All parameters are passed from `PleioVar_main()` and are more detailed over there.
+All parameters are passed from `PRISM_main()` and are more detailed over there.
 }
