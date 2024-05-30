@@ -2,7 +2,7 @@
 % Please edit documentation in R/Traitwise_pipeline.R
 \name{Traitwise_pipeline}
 \alias{Traitwise_pipeline}
-\title{Traitwise pipeline of PleioVar}
+\title{Traitwise pipeline of PRISM}
 \usage{
 Traitwise_pipeline(
   ListofTraits,
@@ -31,17 +31,17 @@ Traitwise_pipeline(
 
 \item{pU}{Polygenicity of the confounder U.}
 
-\item{ThreshSelectionPvalues}{P-value threshold to select PleioVar top variants.}
+\item{ThreshSelectionPvalues}{P-value threshold to select PRISM top variants.}
 
-\item{labelGWASsig}{TRUE if you want to label variants that are not PleioVar significant but are GWAS significant.}
+\item{labelGWASsig}{TRUE if you want to label variants that are not PRISM significant but are GWAS significant.}
 }
 \description{
-`Traitwise_pipeline()` handles the traitwise process of PleioVar. It takes as input
+`Traitwise_pipeline()` handles the traitwise process of PRISM. It takes as input
 the likelihoods and scores obtained from `Pairwise_pipeline()`. It outputs the syntheses
-and the PleioVar p-values by traits in the Traitwise/ folder.
+and the PRISM p-values by traits in the Traitwise/ folder.
 
-Final results (PleioVar p-values and pleiotropic labels, for all variants) are
+Final results (PRISM p-values and pleiotropic labels, for all variants) are
 written for each trait in the Results/ folder.
 
-All parameters are passed from `PleioVar_main()` and are more detailed over there.
+All parameters are passed from `PRISM_main()` and are more detailed over there.
 }

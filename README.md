@@ -6,8 +6,10 @@
 <!-- badges: start -->
 <!-- badges: end -->
 
-PRISM takes as input GWAS data and outputs pleiotropic labels for a list
-of variants.
+## Principle of PRISM
+
+![PRISM](Github_Fig.png) PRISM takes as input GWAS summary statistics of
+multiple traits and outputs significant labeled variant-trait effects.
 
 ## Results visualization
 
@@ -28,10 +30,10 @@ You can install the current version of PRISM like so:
 
 ## Example
 
-This is a basic example to obtain pleiotropic labels from GWAS summary
+This is a basic example to obtain labels from simulated GWAS summary
 statistics.  
 Parameters obtained from LHC-MR, LDscores of all variants, and simulated
-GWAS ZScores are already included.  
+GWAS Z-scores are already included.  
 You should specify the NbCores parameters if your computer can handle
 parallel computations.
 

@@ -1,13 +1,13 @@
-#' Traitwise pipeline of PleioVar
+#' Traitwise pipeline of PRISM
 #' @description
-#' `Traitwise_pipeline()` handles the traitwise process of PleioVar. It takes as input
+#' `Traitwise_pipeline()` handles the traitwise process of PRISM. It takes as input
 #' the likelihoods and scores obtained from `Pairwise_pipeline()`. It outputs the syntheses
-#' and the PleioVar p-values by traits in the Traitwise/ folder.
+#' and the PRISM p-values by traits in the Traitwise/ folder.
 #'
-#' Final results (PleioVar p-values and pleiotropic labels, for all variants) are
+#' Final results (PRISM p-values and pleiotropic labels, for all variants) are
 #' written for each trait in the Results/ folder.
 #'
-#' All parameters are passed from `PleioVar_main()` and are more detailed over there.
+#' All parameters are passed from `PRISM_main()` and are more detailed over there.
 #'
 #' @param ListofTraits The list of traits to be processed.
 #' @param ParametersTable The parameters table for each pair of traits.
@@ -15,9 +15,9 @@
 #' @param Index A dataframe with all variants and their LDscores.
 #' @param gzip TRUE to gzip created files, FALSE otherwise.
 #' @param pU Polygenicity of the confounder U.
-#' @param ThreshSelectionPvalues P-value threshold to select PleioVar top variants.
+#' @param ThreshSelectionPvalues P-value threshold to select PRISM top variants.
 #' @param sourceGWAS The folder where GWAS summary statistics files are held.
-#' @param labelGWASsig TRUE if you want to label variants that are not PleioVar significant but are GWAS significant.
+#' @param labelGWASsig TRUE if you want to label variants that are not PRISM significant but are GWAS significant.
 #'
 #' @return
 #' @export
@@ -328,7 +328,7 @@ Traitwise_pipeline <- function(ListofTraits, ParametersTable, Index ,sourceGWAS,
 
 
     MSD <- MSD[,c("variant", "PX", "Ori", "Ori2")]
-    colnames(MSD) <- c("variant", "PvalPleioVar", "FullPleio","SynthPleio")
+    colnames(MSD) <- c("variant", "PvalPRISM", "FullPleio","SynthPleio")
 
 
     write.table(MSD, file = paste0("Results/Pleio_", TRAIT,".csv"), sep=",", quote=F, row.names=F, col.names = T)

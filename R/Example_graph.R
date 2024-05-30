@@ -20,7 +20,7 @@ Example_graph <- function(ListofTraits, Trait, ParametersTable, ThreshSelectionP
   path <- paste0("Data/", list.files("Data/", pattern = paste0("^",Trait,".csv")))
   X <- fread(path)
 
-  Somme$PvalPRISM[Somme$PvalPRISM < 1e-200] <- 1e-200 #Pour éviter des graphes bizarres
+  Somme$PvalPRISM[Somme$PvalPRISM < 1e-200] <- 1e-200 #To avoid disproportionate graphs
 
 
   nX <- c(ParametersTable$nX[ParametersTable$X == Trait],
@@ -30,7 +30,6 @@ Example_graph <- function(ListofTraits, Trait, ParametersTable, ThreshSelectionP
   message("Pvalues from GWAS calculated from Zscores and sample size")
   Somme$PvalGWAS[Somme$PvalGWAS < 1e-200] <- 1e-200
 
-  #Faisons un graphe
   Somme$SynthPleio[ Somme$SynthPleio == "No supplementary info"] <- "\n Direct Effect \n "
   Somme$SynthPleio[ Somme$SynthPleio == "Detected Network Pleiotropy"] <- "\n Detected Network \n Pleiotropy \n "
   Somme$SynthPleio[ Somme$SynthPleio == "Suspected Vertical Pleiotropy"] <- "\n Suspected Vertical \n Pleiotropy \n "
