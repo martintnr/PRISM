@@ -13,7 +13,7 @@
 #' @export
 #'
 #' @examples
-Example_graph <- function(ListofTraits, Trait, ParametersTable, ThreshSelectionPvalues = 5e-08/length(ListofTraits)){
+Example_graph <- function(ListofTraits, Trait, ParametersTable, ThreshSelectionPvalues = 5e-08/(length(ListofTraits)-1)){
 
 
   Somme <- fread(paste0("Results/Pleio_", Trait,".csv"))
@@ -27,24 +27,24 @@ Example_graph <- function(ListofTraits, Trait, ParametersTable, ThreshSelectionP
     ParametersTable$nY[ParametersTable$Y == Trait])[1]
 
   Somme$PvalGWAS <- 2*pnorm(q=abs(X$Zscore * sqrt(nX)), lower.tail=FALSE)
-  message("Pvalues from GWAS calculated from Zscores and sample size")
+  message("Pvalues from GWAS calculated from Z-scores and sample size")
   Somme$PvalGWAS[Somme$PvalGWAS < 1e-200] <- 1e-200
 
-  Somme$SynthPleio[ Somme$SynthPleio == "No supplementary info"] <- "\n Direct Effect \n "
-  Somme$SynthPleio[ Somme$SynthPleio == "Detected Network Pleiotropy"] <- "\n Detected Network \n Pleiotropy \n "
-  Somme$SynthPleio[ Somme$SynthPleio == "Suspected Vertical Pleiotropy"] <- "\n Suspected Vertical \n Pleiotropy \n "
-  Somme$SynthPleio[ Somme$SynthPleio == "\n Direct Effect \n " & Somme$PvalPRISM > ThreshSelectionPvalues ] <- "\n No Effect \n "
+  Somme$SynthPleio[ Somme$SynthPleio == "No supplementary info"] <- "Direct Effect"
+  Somme$SynthPleio[ Somme$SynthPleio == "Detected Network Pleiotropy"] <- "Confounding Pleiotropy"
+  Somme$SynthPleio[ Somme$SynthPleio == "Suspected Vertical Pleiotropy"] <- "Vertical Pleiotropy"
+  Somme$SynthPleio[ Somme$SynthPleio == "\n Direct Effect \n " & Somme$PvalPRISM > ThreshSelectionPvalues ] <- "No Effect"
 
 
 
   p <- qplot(-log10(Somme$PvalGWAS), -log10(Somme$PvalPRISM), data = Somme, colour = Somme$SynthPleio,
-        main = paste0("Significance of the effect of variants on ", Trait, ", ", nrow(Somme), " variants")
+        main = paste0("Significance of the variant-trait effects on ", Trait, ", ", nrow(Somme), " variants")
         , xlab = "-log10(GWAS association p-value)", ylab = "-log10(PRISM p-value)") +
-    scale_color_manual(values = c("\n Detected Network \n Pleiotropy \n " = "#a23c33",
-                                  "\n Direct Effect \n "="#45709d",
-                                  "\n Suspected Vertical \n Pleiotropy \n "="#82992a",
-                                  "\n No Effect \n " = "#D3D3D3")) +
-    labs(color = "Pleiotropy") +
+    scale_color_manual(values = c("Confounding Pleiotropy" = "#a23c33",
+                                  "Direct Effect"="#45709d",
+                                  "Vertical Pleiotropy"="#82992a",
+                                  "No Effect" = "#D3D3D3")) +
+    labs(color = "") + theme_bw +
     theme(text = element_text(size=20))
 
   return(p)
