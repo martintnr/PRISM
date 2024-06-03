@@ -68,7 +68,7 @@ PRISM_main(ListofTraits, ParametersTable, Index , sourceGWAS = "Data/",
 ```
 
 In the Results/ folder can be found, for each trait, a file with
-variants, p-values from PRISM, and pleiotropy annotation.
+variants, p-values from PRISM, and pleiotropy annotations.
 
 ``` r
 library(ggplot2)
