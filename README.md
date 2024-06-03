@@ -13,7 +13,7 @@ multiple traits and outputs significant labeled variant-trait effects, and a cau
 
 ## Results visualization
 
-You can see PRISM results and the causal network of any variant on our
+You can see PRISM results and the causal network of any significant variant on our
 [Shiny visualization tool](https://verbam01.shinyapps.io/PRISM/)
 
 ## Preprint
