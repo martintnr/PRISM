@@ -80,3 +80,7 @@ print(Graph)
 
 If you want to use PRISM on your own data, you can use this vignette:
 \[<https://github.com/martintnr/PRISM/blob/main/vignettes/PRISM_vignette.md>\]
+
+## Contact info
+
+You can email me at martin.tournaire@u-paris.fr
