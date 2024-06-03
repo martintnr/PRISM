@@ -16,6 +16,11 @@ multiple traits and outputs significant labeled variant-trait effects.
 You can see PRISM results and the causal network of any variant on our
 [Shiny visualization tool](https://verbam01.shinyapps.io/PRISM/)
 
+## Preprint
+
+You can find our preprint: [Inferring genetic variant causal network by leveraging pleiotropy](https://github.com/martintnr/PRISM/blob/main/PRISM.pdf)
+and the [Supplementary Material](https://github.com/martintnr/PRISM/blob/main/Supplementary.pdf).
+
 ## Installation
 
 You can install the current version of PRISM like so:
