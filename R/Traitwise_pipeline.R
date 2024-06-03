@@ -40,7 +40,7 @@ Traitwise_pipeline <- function(ListofTraits, ParametersTable, Index ,sourceGWAS,
     }
 
     print(paste0(TRAIT, " synthesis"))
-    print(paste0("gzip is ", gzip))
+  #  print(paste0("gzip is ", gzip))
 
     gc()
     TableBaseOEffect <- as_tibble(TableBase)
@@ -62,7 +62,7 @@ Traitwise_pipeline <- function(ListofTraits, ParametersTable, Index ,sourceGWAS,
     for(FileNumber in c(1:length(file.ls))){
 
       gc()
-       print(FileNumber)
+   #    print(FileNumber)
       Scores <- fread(paste0("Pairwise/",file.ls[FileNumber]))
 
       TableRecapOm2 <- cbind(TableRecapOm2, Scores$CatCharc)
@@ -167,7 +167,7 @@ Traitwise_pipeline <- function(ListofTraits, ParametersTable, Index ,sourceGWAS,
 
     ResX <- mclapply(X = c(1:nrow(MSD)), FUN = TEST, mc.cores = 1)  #Le tableau total
     MSD$PX <- as.numeric(ResX)
-    print("end pval")
+    #print("end pval")
 
 
     MSD_full <-  merge(Index, MSD, by.x = "variant", by.y = "variant", no.dups = TRUE, all.x = TRUE, sort = FALSE )
@@ -177,7 +177,7 @@ Traitwise_pipeline <- function(ListofTraits, ParametersTable, Index ,sourceGWAS,
     MSD_full <- MSD_full[,c("variant", "PX")]
     write.table(MSD_full, file = paste0("Traitwise/Pvalues_", TRAIT, ".csv"), sep=",", quote=F, row.names=F, col.names = T)
 
-    print("start gzip")
+  #  print("start gzip")
 
     if(gzip == T){
       tryCatch(
