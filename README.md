@@ -9,7 +9,7 @@
 ## Principle of PRISM
 
 ![PRISM](Github_Fig.png) PRISM takes as input GWAS summary statistics of
-multiple traits and outputs significant labeled variant-trait effects, and causal networks of genetic variants.
+multiple traits and outputs significant labeled variant-trait effects, and a causal network for each significant genetic variant.
 
 ## Results visualization
 
