@@ -79,7 +79,7 @@ Traitwise_pipeline <- function(ListofTraits, ParametersTable, Index ,sourceGWAS,
 
 
     }
-    print("Synth done")
+ #   print("Synth done")
 
     file.ls <- gsub(pattern = paste0("(.*SNP_Scores_)(.*)(.csv.*)"), replacement = "\\2",  x = file.ls)
     file.ls <- str_remove_all(file.ls, paste0(TRAIT,"_"))
@@ -98,11 +98,11 @@ Traitwise_pipeline <- function(ListofTraits, ParametersTable, Index ,sourceGWAS,
     write.table(TableBaseUEffect, file = paste0("Traitwise/Synthese_UEffect_", TRAIT,".csv"), sep=",", quote=F, row.names=F, col.names = T)
     write.table(TableRecapOm2, file = paste0("Traitwise/Synthese_CatCharc_", TRAIT,".csv"), sep=",", quote=F, row.names=F, col.names = T)
 
-    print("Start gzip S")
-    print(gzip)
+ #   print("Start gzip S")
+#    print(gzip)
 
     if(gzip == T){
-      print("gzip loop entered")
+  #    print("gzip loop entered")
       tryCatch(
         {     system(paste0("gzip Traitwise/Synthese_*", "_",TRAIT,".csv"))
 
@@ -140,7 +140,7 @@ Traitwise_pipeline <- function(ListofTraits, ParametersTable, Index ,sourceGWAS,
     MSD$sdX <- rowSds(as.matrix(TableBaseXEffect[, Range]), na.rm = TRUE)
 #    MSD$meanU <-  rowMeans(TableBaseUEffect[, Range])
  #   MSD$sdU <- rowSds(as.matrix(TableBaseUEffect[, Range]), na.rm = TRUE)
-    print("Start pval")
+   # print("Start pval")
 
 
     TEST <- function(SNP){ #Paired T-test of the direct effect of the variant on the trait
@@ -239,7 +239,7 @@ Traitwise_pipeline <- function(ListofTraits, ParametersTable, Index ,sourceGWAS,
 
     for(VIND in TraitsVPleio){ #print(VIND)
       gc()
-      print(VIND)
+     # print(VIND)
 
 
 
