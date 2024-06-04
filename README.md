@@ -18,8 +18,7 @@ You can see PRISM results and the causal network of any significant variant on o
 
 ## Preprint
 
-You can find our preprint: [Inferring genetic variant causal network by leveraging pleiotropy](https://github.com/martintnr/PRISM/blob/main/PRISM.pdf)
-and the [Supplementary Material](https://github.com/martintnr/PRISM/blob/main/Supplementary.pdf).
+You can find our preprint: [Inferring genetic variant causal network by leveraging pleiotropy](https://www.medrxiv.org/content/10.1101/2024.06.01.24308193v1)
 
 ## Installation
 
