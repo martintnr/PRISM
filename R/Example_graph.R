@@ -44,7 +44,7 @@ Example_graph <- function(ListofTraits, Trait, ParametersTable, ThreshSelectionP
                                   "Direct Effect"="#45709d",
                                   "Vertical Pleiotropy"="#82992a",
                                   "No Effect" = "#D3D3D3")) +
-    labs(color = "") + theme_bw +
+    labs(color = "") + theme_bw() +
     theme(text = element_text(size=20))
 
   return(p)

@@ -9,12 +9,16 @@
 ## Principle of PRISM
 
 ![PRISM](Github_Fig.png) PRISM takes as input GWAS summary statistics of
-multiple traits and outputs significant labeled variant-trait effects.
+multiple traits and outputs significant labeled variant-trait effects, and a causal network for each significant genetic variant.
 
 ## Results visualization
 
-You can see PRISM results and the causal network of any variant on our
+You can see PRISM results and the causal network of any significant variant on our
 [Shiny visualization tool](https://verbam01.shinyapps.io/PRISM/)
+
+## Preprint
+
+You can find our preprint: [Inferring genetic variant causal network by leveraging pleiotropy](https://www.medrxiv.org/content/10.1101/2024.06.01.24308193v1)
 
 ## Installation
 
@@ -63,7 +67,7 @@ PRISM_main(ListofTraits, ParametersTable, Index , sourceGWAS = "Data/",
 ```
 
 In the Results/ folder can be found, for each trait, a file with
-variants, p-values from PRISM, and pleiotropy annotation.
+variants, p-values from PRISM, and pleiotropy annotations.
 
 ``` r
 library(ggplot2)
@@ -75,3 +79,7 @@ print(Graph)
 
 If you want to use PRISM on your own data, you can use this vignette:
 \[<https://github.com/martintnr/PRISM/blob/main/vignettes/PRISM_vignette.md>\]
+
+## Contact info
+
+You can email me at martin.tournaire@u-paris.fr
