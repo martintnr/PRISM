@@ -44,7 +44,7 @@ Example_graph <- function(ListofTraits, Trait, ParametersTable, ThreshSelectionP
 
     p <- qplot(-log10(Somme$PvalGWAS), -log10(Somme$PvalPRISM), data = Somme, colour = Somme$SynthPleio,
           main = paste0("Significance of the variant-trait effects on ", Trait, ", ", nrow(Somme), " variants")
-          , xlab = "-log10(GWAS association p-value)", ylab = "-log10(PRISM p-value)") +
+          ,  xlab = expression(paste("-",log[10] ,"(GWAS association p-value)")), ylab = expression(paste("-",log[10] ,"(PRISM p-value)"))) +
       scale_color_manual(values = c("Confounder Pleiotropy" = "#a23c33",
                                     "Direct Effect"="#45709d",
                                     "Vertical Pleiotropy"="#82992a",
