@@ -297,7 +297,7 @@ Traitwise_pipeline <- function(ListofTraits, ParametersTable, Index ,sourceGWAS,
     MSD$Ori2 <- MSD$Ori
 
     allEl <- unlist(Conf)
-    possibles <- unique(allEl[startsWith(allEl, "U_")])
+    possibles <- unique(allEl[startsWith(allEl, "Om2")])
     Conf <- Conf %>% filter_all(any_vars(. %in% possibles))
 
     if(nrow(Conf) > 0){
