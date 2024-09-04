@@ -15,9 +15,7 @@
 Example_network <- function(ListofTraits, Variant, ParametersTable, ThreshSelectionPvalues = 5e-08/(length(ListofTraits)-1)){
 
 
-    library(splitstackshape)
-    library(visNetwork)
-    library(shiny)
+
 
   TraitDef <- data.frame(Category = c("A","B","B", "B", "B", "C","C", "C", "C", "D",
                                       "E","E","E","E","E","E","E","E") ,

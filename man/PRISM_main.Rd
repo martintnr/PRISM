@@ -12,7 +12,7 @@ PRISM_main(
   NbCores = 1,
   gzip = F,
   pU = 1e-05,
-  ThreshSelectionPvalues = 5e-08/length(ListofTraits),
+  ThreshSelectionPvalues = 5e-08/(length(ListofTraits) - 1),
   keepIntermediateFiles = F,
   Minimum_MAF = 0.05,
   skipPairwise = F,
