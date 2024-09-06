@@ -142,10 +142,10 @@ lhcmrLoop <- function(A, NbCores, Minimum_MAF = 0.05, run_ldsc = T, run_MR = T){
 
   # Import both sets of summary stats and remove missing observations (= variants with no calculable P-values)
   
-  path1 <- paste0(sourceGWAS, list.files(sourceGWAS, pattern = paste0("^",Trait1,".csv")))
+  path1 <- paste0(sourceGWAS, list.files(sourceGWAS, pattern = paste0("^",Trait1)))
   X <- fread(path1)
  
-  path2 <- paste0(sourceGWAS, list.files(sourceGWAS, pattern = paste0("^",Trait2,".csv")))
+  path2 <- paste0(sourceGWAS, list.files(sourceGWAS, pattern = paste0("^",Trait2)))
   Y <- fread(path2)
  
 
