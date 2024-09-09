@@ -205,7 +205,7 @@ lhcmrLoop <- function(A, NbCores, Minimum_MAF = 0.05, run_ldsc = T, run_MR = T){
 
 Range <- c(1:nrow(AllPairs))  
 
-lapply(X = Range, FUN = lhcmrLoop, NbCores = 1)
+lapply(X = Range, FUN = lhcmrLoop, NbCores = 1, run_MR = F)
 ```
 
 ### Running PRISM
