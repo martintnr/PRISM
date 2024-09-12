@@ -26,7 +26,7 @@ Example_graph <- function(ListofTraits, Trait, ParametersTable, ThreshSelectionP
     nX <- c(ParametersTable$nX[ParametersTable$X == Trait],
       ParametersTable$nY[ParametersTable$Y == Trait])[1]
 
-    Somme$PvalGWAS <- 2*pnorm(q=abs(X$Zscore * sqrt(nX)), lower.tail=FALSE)
+    Somme$PvalGWAS <- 2 * pt(abs(X$Zscore * sqrt(nX)), df = nX-1, lower.tail = F)
     message("Pvalues from GWAS calculated from Z-scores and sample size")
     Somme$PvalGWAS[Somme$PvalGWAS < 1e-200] <- 1e-200
 
