@@ -28,6 +28,7 @@ Example_graph <- function(ListofTraits, Trait, ParametersTable, ThreshSelectionP
 
     Somme$PvalGWAS <- 2 * pt(abs(X$Zscore * sqrt(nX)), df = nX-1, lower.tail = F)
     message("Pvalues from GWAS calculated from Z-scores and sample size")
+    #By recalculating TSTAT
     Somme$PvalGWAS[Somme$PvalGWAS < 1e-200] <- 1e-200
 
     Somme$SynthPleio[ Somme$SynthPleio == "No supplementary info"] <- "Direct Effect"
