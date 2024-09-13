@@ -21,11 +21,11 @@ knitr::opts_chunk$set(
 ## Principle of PRISM
 
 ![PRISM](Github_Fig.png)
-PRISM takes as input GWAS summary statistics of multiple traits and outputs significant labeled variant-trait effects.
+PRISM takes as input GWAS summary statistics of multiple traits and outputs significant labeled variant-trait effects. Further information can be found in our [pre-print](https://doi.org/10.1101/2024.06.01.24308193).
 
 ## Results visualization
 
-You can see PRISM results and the causal network of any variant on our [Shiny visualization tool](https://verbam01.shinyapps.io/PRISM/)
+You can see PRISM results and the causal network of any variant on our [Shiny visualization tool](https://verbam01.shinyapps.io/PRISM/).
 
 
 ## Installation
@@ -96,3 +96,5 @@ Network <- Example_network(ListofTraits, ParametersTable, Variant = "1:769223:C:
 ```
 
 If you want to use PRISM on your own data, you can use this vignette: [https://github.com/martintnr/PRISM/blob/main/vignettes/PRISM_vignette.md]
+
+
