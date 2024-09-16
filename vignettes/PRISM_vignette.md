@@ -238,9 +238,9 @@ ListofTraits <- unique(c(ParametersTable$X, ParametersTable$Y))
 ```
 
 The final step is to run the PRISM pipeline.  
-If you have a *Zscore* column in your GWAS data, PRISM will process
-them.  
-If you do not, the Zscores will be computed with
+If you have a *standard_beta* column in your GWAS data, PRISM will
+process them.  
+If you do not, the standardized effect sizes will be computed with
 $\frac{tstat}{\sqrt{(sample \ size)}}$. If you formatted your data
 according to LHC-MR guidelines and the previous steps worked, everything
 should run automatically.  

@@ -86,18 +86,18 @@ Pairwise_pipeline <- function(ListofTraits, ParametersTable, Index , sourceGWAS,
 
 
 
-      if("Zscore" %in% colnames(X) & "Zscore" %in% colnames(Y)){
+      if("standard_beta" %in% colnames(X) & "standard_beta" %in% colnames(Y)){
         df <- merge(X , Y, by = "variant", sort = F)
         df <- merge(Index, df, by = "variant", sort = F)
 
-        bX = df$Zscore.x  #Effects of trait X
-        bY = df$Zscore.y  #Effects of trait Y
+        bX = df$standard_beta.x  #Effects of trait X
+        bY = df$standard_beta.y  #Effects of trait Y
         ld = df$LDscore
         Variants <- df$variant
 
 
 
-      }else{ #Let's use LHC-MR code to get the Zscores. Could be optimized
+      }else{ #Let's use LHC-MR code to get the standardized betas. Could be optimized
 
 
         X = dplyr::inner_join(X,VAR[,c(1:6)])
@@ -136,7 +136,7 @@ Pairwise_pipeline <- function(ListofTraits, ParametersTable, Index , sourceGWAS,
 
 
 
-        message("Zscores were recalculated")
+        message("Standardized effect sizes were recalculated")
 
 
       }
