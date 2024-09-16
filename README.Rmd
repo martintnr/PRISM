@@ -43,7 +43,7 @@ You can install the current version of PRISM like so:
 ## Example
 
 This is a basic example to obtain labels from simulated GWAS summary statistics.  
-Parameters obtained from LHC-MR, LDscores of all variants, and simulated GWAS Z-scores are already included.  
+Parameters obtained from LHC-MR, LDscores of all variants, and simulated GWAS standardized effect sizes are already included.  
 You should specify the NbCores parameters if your computer can handle parallel computations.  
 
 ```{r example, eval = FALSE}
