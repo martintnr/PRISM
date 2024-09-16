@@ -122,6 +122,8 @@ Results will be written in the `LHCMR_Results`folder.
 lhcmrLoop <- function(A, NbCores, Minimum_MAF = 0.05, run_ldsc = T, run_MR = T){
   gc()
   print(paste0("Loop"," ",A)) 
+  
+    setwd(RefFolder)
 
     debut <- Sys.time()
 
@@ -184,6 +186,8 @@ lhcmrLoop <- function(A, NbCores, Minimum_MAF = 0.05, run_ldsc = T, run_MR = T){
   ## Step 3
   res = lhc_mr(SP_list, trait.names, paral_method= "lapply", nBlock=200, 
                nCores = NbCores, run_ldsc, run_MR) #The actual optimisation
+  
+  res <- as.data.frame(res)
   
   res$nX <- c(unique(df$`N.x`), NA, NA)
   res$nY <- c(unique(df$`N.y`), NA, NA)
