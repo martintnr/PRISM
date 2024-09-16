@@ -65,9 +65,9 @@ want to process.
 For this example, I will use LDL, HDL, and CAD from UKBiobank round 2.  
 You should use LHC-MR (<https://github.com/LizaDarrous/lhcMR>)
 guidelines to format your data.  
-Please format your GWAS data to begin with *Trait*. (the default
-UKBiobank round 2 format works). If multiple files in the folder begins
-with the same prefix, please remove or rename the duplicates.  
+Please format your GWAS data filenames to begin with *Trait*. (the
+default UKBiobank round 2 format works). If multiple files in the folder
+begins with the same prefix, please remove or rename the duplicates.  
 Both .tsv and .csv formats are acceptable, and the data can be gzipped
 (.gz or .bgz).
 
