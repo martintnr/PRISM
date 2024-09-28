@@ -325,8 +325,8 @@ Traitwise_pipeline <- function(ListofTraits, ParametersTable, Index ,sourceGWAS,
 
 
 
-    MSD$Ori2[MSD$variant %in% VertP$variant]  <- "Suspected Vertical Pleiotropy"
-    MSD$Ori2[MSD$Ori == "No_supp_info"] <- "No supplementary info"
+    MSD$Ori2[MSD$variant %in% VertP$variant]  <- "Vertical Pleiotropy"
+    MSD$Ori2[MSD$Ori == "No_supp_info"] <- "Direct Effect"
 
 
     MSD <- MSD[,c("variant", "PX", "Ori", "Ori2")]

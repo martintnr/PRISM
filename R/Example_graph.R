@@ -31,10 +31,7 @@ Example_graph <- function(ListofTraits, Trait, ParametersTable, ThreshSelectionP
     #By recalculating TSTAT
     Somme$PvalGWAS[Somme$PvalGWAS < 1e-200] <- 1e-200
 
-    Somme$SynthPleio[ Somme$SynthPleio == "No supplementary info"] <- "Direct Effect"
-    Somme$SynthPleio[ Somme$SynthPleio == "Detected Network Pleiotropy"] <- "Confounder Pleiotropy"
-    Somme$SynthPleio[ Somme$SynthPleio == "Suspected Vertical Pleiotropy"] <- "Vertical Pleiotropy"
-    Somme$SynthPleio[ Somme$SynthPleio == "Direct Effect" & Somme$PvalPRISM > ThreshSelectionPvalues ] <- "No Effect"
+    Somme$SynthPleio[ Somme$PvalPRISM > ThreshSelectionPvalues ] <- "No Effect"
 
 
     Somme$SynthPleio <-   factor( Somme$SynthPleio, levels= c("Direct Effect",

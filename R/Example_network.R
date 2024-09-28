@@ -82,11 +82,11 @@ Example_network <- function(ListofTraits, Variant, ParametersTable, ThreshSelect
       PleioResultSub <- subset(VariantPleioResult, SynthPleio == PleioType)
 
       # Direct effect
-      if(PleioType == "No supplementary info" & any(PleioResultSub$SynthPleio == PleioType))
+      if(PleioType == "Direct Effect" & any(PleioResultSub$SynthPleio == PleioType))
         Edges <- setnames(cbind.data.frame(PleioResultSub[, c("variant", "Trait1", "PvalPRISM")], col = "#45709d"), c("from", "to", "value", "color"))
 
       # Vertical effect
-      if(PleioType == "Suspected Vertical Pleiotropy" & any(VariantPleioResult$SynthPleio == PleioType)) {
+      if(PleioType == "Vertical Pleiotropy" & any(VariantPleioResult$SynthPleio == PleioType)) {
         Edges <- rbind.data.frame(
           setnames(cbind.data.frame(PleioResultSub[, c("variant", "FullPleio", "PvalPRISM")], col = "#82992a"), c("from", "to", "value", "color")),
           setnames(cbind.data.frame(PleioResultSub[, c("FullPleio", "Trait1", "PvalPRISM")], col = "#82992a"), c("from", "to", "value", "color"))
@@ -96,7 +96,7 @@ Example_network <- function(ListofTraits, Variant, ParametersTable, ThreshSelect
         Edges <- Edges[ ! interaction(Edges[, c("from", "to")]) %in% EdgeVerif, ]
       }
       # Network effect
-      if(PleioType == "Detected Network Pleiotropy" & any(VariantPleioResult$SynthPleio == PleioType))
+      if(PleioType == "Confounder Pleiotropy" & any(VariantPleioResult$SynthPleio == PleioType))
         Edges <- rbind.data.frame(
           setnames(cbind.data.frame(PleioResultSub[, c("variant", "PvalPRISM")], to = paste("U", interaction(PleioResultSub[, c("Trait1", "FullPleio")], sep = "-"), sep = "-"), col = "#a23c33")[c(1, 3, 2, 4)], c("from", "to", "value", "color")),
           setnames(cbind.data.frame(PleioResultSub[, c("Trait1", "PvalPRISM")], to = paste("U", interaction(PleioResultSub[, c("Trait1", "FullPleio")], sep = "-"), sep = "-"), col = "#a23c33")[c(3, 1, 2, 4)], c("from", "to", "value", "color")),
