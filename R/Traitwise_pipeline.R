@@ -313,7 +313,7 @@ Traitwise_pipeline <- function(ListofTraits, ParametersTable, Index ,sourceGWAS,
 
 
       MSD$Ori[match(U_IDS,MSD$variant)]  <-  result$Upleio
-      MSD$Ori2[MSD$variant %in% U_IDS] <- "Detected Network Pleiotropy"
+      MSD$Ori2[MSD$variant %in% U_IDS] <- "Confounder Pleiotropy"
 
     }
 
