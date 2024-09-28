@@ -82,7 +82,7 @@ library(splitstackshape)
 library(visNetwork)
 library(shiny)
 
-Network <- Example_network(ListofTraits, ParametersTable, Variant = "1:769223:C:G")
+Network <- Example_network(ListofTraits, ParametersTable, Variant = "1:5341323:G:A")
 ```
 
 If you want to use PRISM on your own data, you can use this vignette:
