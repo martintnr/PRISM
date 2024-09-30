@@ -203,6 +203,8 @@ Traitwise_pipeline <- function(ListofTraits, ParametersTable, Index ,sourceGWAS,
     MSD <- fread(path)
 
     TopVar <- MSD$variant[MSD$PX < ThreshSelectionPvalues]
+    TopVar_mem <- TopVar
+
 
     if(labelGWASsig == T){
 
@@ -213,6 +215,8 @@ Traitwise_pipeline <- function(ListofTraits, ParametersTable, Index ,sourceGWAS,
     gc()
     Somme <- Somme[Somme$pval < ThreshSelectionPvalues | Somme$PX < ThreshSelectionPvalues,]
     TopVar <- Somme$variant
+    TopVar_mem <- TopVar
+
     rm(Somme)
     gc()
     }
@@ -328,8 +332,8 @@ Traitwise_pipeline <- function(ListofTraits, ParametersTable, Index ,sourceGWAS,
     MSD$Ori2[MSD$Ori == "No_supp_info"] <- "Direct Effect"
     MSD$Ori[MSD$Ori2 == "Direct Effect"] <- paste0("E:", TRAIT)
     MSD <- MSD[! is.na(MSD$PX),]
-    MSD$Ori2[!MSD$variant %in% TopVar] <- "No Effect"
-    MSD$Ori[!MSD$variant %in% TopVar] <- "No Effect"
+    MSD$Ori2[!MSD$variant %in%  TopVar_mem] <- "No Effect"
+    MSD$Ori[!MSD$variant %in%  TopVar_mem] <- "No Effect"
 
 
 
