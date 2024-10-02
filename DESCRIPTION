@@ -22,4 +22,4 @@ Suggests:
     knitr,
     rmarkdown
 VignetteBuilder: knitr
-License: NA
+License: GPL (>= 3)
