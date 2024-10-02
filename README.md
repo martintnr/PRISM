@@ -96,5 +96,5 @@ library(shiny)
 Network <- Example_network(ListofTraits, ParametersTable, Variant = "1:5341323:G:A")
 ```
 
-If you want to use PRISM on real data, you can use this
+To use PRISM on real data, please use this
 [vignette](https://github.com/martintnr/PRISM/blob/main/vignettes/PRISM_vignette.md).
