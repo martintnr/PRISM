@@ -97,6 +97,9 @@ Network <- Example_network(ListofTraits, ParametersTable, Variant = "1:5341323:G
 
 ```
 
+
+## Using PRISM
+
 To use PRISM on real data, please use this [vignette](https://github.com/martintnr/PRISM/blob/main/vignettes/PRISM_vignette.md).
 
 
