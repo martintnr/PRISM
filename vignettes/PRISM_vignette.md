@@ -11,7 +11,7 @@ Before starting, a few points:
 - LHC-MR is limited to HapMap3 variants, and so is PRISM.
 - LHC-MR and PRISM are computationally intensive methods, and
   exponentially so the more traits you add. Parallel computing is highly
-  recommended.  
+  recommended, but requires substantial RAM resources.
 
 ### Installation
 
@@ -252,3 +252,12 @@ speed up calculation.
 PRISM_main(ListofTraits, ParametersTable, Index , sourceGWAS = sourceGWAS,
               NbCores = 1, gzip = F, keepIntermediateFiles = F)
 ```
+
+### [Pre-print](https://doi.org/10.1101/2024.06.01.24308193) results
+
+The results presented in our pre-print can be reproduced using LHC-MR
+results available [here](https://doi.org/10.5281/zenodo.13862821) and UK
+Biobank GWAS round 2 summary statistics available
+[here](https://www.nealelab.is/uk-biobank). The full list of processed
+traits is provided in [Supplementary Table
+2](https://www.medrxiv.org/content/10.1101/2024.06.01.24308193v2.supplementary-material).

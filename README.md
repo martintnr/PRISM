@@ -20,7 +20,8 @@ You can see PRISM results and the causal network of any variant on our
 
 ## Installation
 
-You can install the current version of PRISM like so:
+To install the current version of PRISM, which should take a few
+minutes:
 
 ``` r
   if(!"devtools" %in% installed.packages()[, "Package"]) {
@@ -29,6 +30,9 @@ You can install the current version of PRISM like so:
   if(!"PRISM" %in% installed.packages()[, "Package"]) {
   devtools::install_github("martintnr/PRISM") }
 ```
+
+PRISM has been tested on Linux: Ubuntu 22.04.4 LTS and macOS: Sonoma
+14.5
 
 ## Example
 
@@ -64,8 +68,13 @@ PRISM_main(ListofTraits, ParametersTable, Index , sourceGWAS = "Data/",
               NbCores = 1, gzip = F, keepIntermediateFiles = F)
 ```
 
-In the Results/ folder can be found, for each trait, a file with
-variants, p-values from PRISM, and pleiotropy annotation.
+On a single core, `PRISM_main` is expected to complete execution within
+approximately 20 minutes. Upon completion, the Results/ directory will
+contain, for each trait, a file that includes variants, p-values from
+PRISM, and pleiotropy annotations.
+
+To visualize a result [example
+graph](https://github.com/martintnr/PRISM/blob/main/Example_graph_output.png):
 
 ``` r
 library(ggplot2)
@@ -75,7 +84,9 @@ Graph <- Example_graph(ListofTraits, ParametersTable, Trait = "B4")
 print(Graph)
 ```
 
-To visualize an example network, with Shiny:
+To visualize an [example
+network](https://github.com/martintnr/PRISM/blob/main/Example_network_output.png),
+with Shiny:
 
 ``` r
 library(splitstackshape)
@@ -85,5 +96,5 @@ library(shiny)
 Network <- Example_network(ListofTraits, ParametersTable, Variant = "1:5341323:G:A")
 ```
 
-If you want to use PRISM on your own data, you can use this vignette:
-\[<https://github.com/martintnr/PRISM/blob/main/vignettes/PRISM_vignette.md>\]
+If you want to use PRISM on real data, you can use this
+[vignette](https://github.com/martintnr/PRISM/blob/main/vignettes/PRISM_vignette.md).
