@@ -208,16 +208,16 @@ Traitwise_pipeline <- function(ListofTraits, ParametersTable, Index ,sourceGWAS,
 
     if(labelGWASsig == T){
 
-      DepartMSD <- fread(paste0(sourceGWAS, list.files(sourceGWAS, pattern = paste0("^",TRAIT,"\\."))))
-
-    Somme <- merge(MSD[, c("variant","PX")],  DepartMSD[, c("variant","pval")], by = "variant")
+    DepartMSD <- fread(paste0(sourceGWAS, list.files(sourceGWAS, pattern = paste0("^",TRAIT,"\\."))))
+    if("pval" %in% colnames(DepartMSD)){
+      Somme <- merge(MSD[, c("variant","PX")],  DepartMSD[, c("variant","pval")], by = "variant")
+      Somme <- Somme[Somme$pval < ThreshSelectionPvalues | Somme$PX < ThreshSelectionPvalues,]
+      TopVar <- Somme$variant
+      TopVar_mem <- TopVar
+      rm(Somme)
+    }else{  message("pval column absent from ", TRAIT ," GWAS input data. GWAS significant variants
+                    that are not PRISM significant will not be labeled for pleiotropy.") }
     rm(DepartMSD)
-    gc()
-    Somme <- Somme[Somme$pval < ThreshSelectionPvalues | Somme$PX < ThreshSelectionPvalues,]
-    TopVar <- Somme$variant
-    TopVar_mem <- TopVar
-
-    rm(Somme)
     gc()
     }
 
