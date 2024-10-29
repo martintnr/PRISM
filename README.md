@@ -15,8 +15,13 @@ Further information can be found in our
 
 ## Results visualization
 
-You can see PRISM results and the causal network of any variant on our
-[Shiny visualization tool](https://verbam01.shinyapps.io/PRISM/).
+You can visualize PRISM results and the causal network of any variant on
+our [Shiny visualization tool](https://verbam01.shinyapps.io/PRISM/).
+The app can be launched locally from R using the following command:
+
+``` r
+shiny::runGitHub(repo = "martintnr/PRISMApp", subdir = "")
+```
 
 ## Installation
 
