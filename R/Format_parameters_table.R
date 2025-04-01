@@ -51,8 +51,8 @@ Format_parameters_table <- function(AllPairs, resdir, rhoXY = 0){
                 rhoXY_ip)
     }else{
       params <- c(Trait1, Trait2,
-                  res[1,"iX"], res[1,"piX"],res[1,"h2X"],res[1,"tX"],res[1,"axy"],res[3,"axy"],
-                  res[1,"iY"], res[1,"piY"],res[1,"h2Y"],res[1,"tY"],res[1,"ayx"],res[3,"ayx"],
+                  res[1,"iX"], res[1,"piX"],res[1,"h2X"],res[1,"tX"],res[1,"axy"],res[3,"axy"], NA,
+                  res[1,"iY"], res[1,"piY"],res[1,"h2Y"],res[1,"tY"],res[1,"ayx"],res[3,"ayx"], NA,
                   rhoXY_ip)
       }
 
