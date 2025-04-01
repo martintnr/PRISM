@@ -53,8 +53,8 @@ PRISM_main <- function(ListofTraits, ParametersTable, Index, sourceGWAS = getwd(
   # We set up the folder architecture
 
 
-  if(length(ListofTraits) < 31){
-    message(paste0(length(ListofTraits)), " traits were submitted, which is less than the 31 traits recommended. Power and accuracy will be reduced")
+  if(length(ListofTraits) < 32){
+    message(paste0(length(ListofTraits)), " traits were submitted, which is less than the 32 traits recommended. Power and accuracy will be reduced")
     }
 
   # PRISM is separated in two parts
