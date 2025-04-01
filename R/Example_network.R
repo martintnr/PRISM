@@ -18,7 +18,7 @@ Example_network <- function(ListofTraits, Variant, ParametersTable, ThreshSelect
 
 
   TraitDef <- data.frame(Category = c("A","B","B", "B", "B", "C","C", "C", "C", "D",
-                                      "E","E","E","E","E","E","E","E") ,
+                                      "E","E","E","E","E") ,
                          phenotype = c("A", #Anciens traits triés
                                          "B1",
                                          "B2",
@@ -33,10 +33,7 @@ Example_network <- function(ListofTraits, Variant, ParametersTable, ThreshSelect
                                          "E2",
                                          "E3",
                                          "E4",
-                                         "E5",
-                                         "E6",
-                                         "E7",
-                                         "E8"))
+                                         "E5"))
 
   TraitDef$description <- TraitDef$phenotype
 
