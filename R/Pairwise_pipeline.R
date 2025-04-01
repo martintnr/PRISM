@@ -141,14 +141,14 @@ Pairwise_pipeline <- function(ListofTraits, ParametersTable, Index , sourceGWAS,
 
       }
 
-      if("nX" %in% colnames(ParametersTable)){nX <- ParametersTable$nX[A]
-      }else if("N.x" %in% colnames(df)){nX <- unique(df$`N.x`)
+      if("N.x" %in% colnames(df)){nX <- unique(df$`N.x`)
       }else if("nX" %in% colnames(df)){nX <- unique(df$nX)
+      }else if("nX" %in% colnames(ParametersTable)){nX <- ParametersTable$nX[A]
       }else{message("X sample size was not found")}
 
-      if("nY" %in% colnames(ParametersTable)){nY <- ParametersTable$nY[A]
-      }else if("N.y" %in% colnames(df)){nY <- unique(df$`N.y`)
+      if("N.y" %in% colnames(df)){nY <- unique(df$`N.y`)
       }else if("nY" %in% colnames(df)){nY <- unique(df$nY)
+      }else if("nY" %in% colnames(ParametersTable)){nY <- ParametersTable$nY[A]
       }else{message("Y sample size was not found")}
 
       if(length(nX) != 1 | length(nY) != 1){message("PRISM cannot handle different sample sizes between variants of a trait")}
@@ -163,7 +163,6 @@ Pairwise_pipeline <- function(ListofTraits, ParametersTable, Index , sourceGWAS,
 
 
       ### Calculates log likelihood from parameters
-
 
 
       ld2 = ld^2

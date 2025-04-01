@@ -23,7 +23,7 @@
 #' @export
 #'
 #' @examples
-Traitwise_pipeline <- function(ListofTraits, ParametersTable, Index ,sourceGWAS, NbCores, gzip, pU, ThreshSelectionPvalues, labelGWASsig){
+Traitwise_pipeline <- function(ListofTraits, ParametersTable, Index ,sourceGWAS, NbCores, gzip, pU, ThreshSelectionPvalues, labelGWASsig, Test){
 
   TableBase <- c(Index$variant)
 
@@ -165,7 +165,21 @@ Traitwise_pipeline <- function(ListofTraits, ParametersTable, Index ,sourceGWAS,
       return(P)
     }
 
-    ResX <- mclapply(X = c(1:nrow(MSD)), FUN = TEST, mc.cores = 1)  #Le tableau total
+    SIGNTEST <- function(SNP){ #Paired sign test of the effect of the variant on trait X
+
+      leSNPX <- as.numeric(TableBaseXEffect[SNP,  Range])
+      leSNPO <- as.numeric(TableBaseOEffect[SNP,  Range])
+      positive_count <- sum(leSNPX > leSNPO)
+      total <- positive_count + sum(leSNPX <= leSNPO)
+      return(binom.test(positive_count, total, p = 0.5, alternative = "greater")$p.value)
+    }
+
+
+    if(Test == "Student"){ResX <- mclapply(X = c(1:nrow(MSD)), FUN = TEST, mc.cores = 1)}
+    if(Test == "Sign"){ResX <- mclapply(X = c(1:nrow(MSD)), FUN = SIGNTEST, mc.cores = 1)}
+
+
+
     MSD$PX <- as.numeric(ResX)
     #print("end pval")
 
@@ -173,7 +187,6 @@ Traitwise_pipeline <- function(ListofTraits, ParametersTable, Index ,sourceGWAS,
     MSD_full <-  merge(Index, MSD, by.x = "variant", by.y = "variant", no.dups = TRUE, all.x = TRUE, sort = FALSE )
     MSD_full <-  MSD_full[match(Index$variant, MSD_full$variant),] #dans le même ordre pour tous
 
-    #On ne garde que les variants et le pX
     MSD_full <- MSD_full[,c("variant", "PX")]
     write.table(MSD_full, file = paste0("Traitwise/Pvalues_", TRAIT, ".csv"), sep=",", quote=F, row.names=F, col.names = T)
 
@@ -187,6 +200,9 @@ Traitwise_pipeline <- function(ListofTraits, ParametersTable, Index ,sourceGWAS,
           message("gzip did not work but that's okay")
         })
     }
+
+
+
   }
 
 
@@ -202,7 +218,7 @@ Traitwise_pipeline <- function(ListofTraits, ParametersTable, Index ,sourceGWAS,
 
     MSD <- fread(path)
 
-    TopVar <- MSD$variant[MSD$PX < ThreshSelectionPvalues]
+    TopVar <- na.omit(MSD$variant[MSD$PX < ThreshSelectionPvalues])
     TopVar_mem <- TopVar
 
 
@@ -215,6 +231,8 @@ Traitwise_pipeline <- function(ListofTraits, ParametersTable, Index ,sourceGWAS,
       TopVar <- Somme$variant
       TopVar_mem <- TopVar
       rm(Somme)
+      rm(DepartMSD)
+      gc()
     }else{  message("pval column absent from ", TRAIT ," GWAS input data. GWAS significant variants
                     that are not PRISM significant will not be labeled for pleiotropy.") }
     rm(DepartMSD)
@@ -243,7 +261,7 @@ Traitwise_pipeline <- function(ListofTraits, ParametersTable, Index ,sourceGWAS,
 
     for(VIND in TraitsVPleio){ #print(VIND)
       gc()
-     # print(VIND)
+  #   print(VIND)
 
 
 
@@ -335,6 +353,11 @@ Traitwise_pipeline <- function(ListofTraits, ParametersTable, Index ,sourceGWAS,
     MSD$Ori2[!MSD$variant %in%  TopVar_mem] <- "No Effect"
     MSD$Ori[!MSD$variant %in%  TopVar_mem] <- "No Effect"
 
+    print(paste0(length(MSD$Ori2[MSD$Ori == "Direct Effect" & MSD$PX >= ThreshSelectionPvalues ] ), " variants are GWAS significant,
+              but not PRISM significant, despite not being labeled for confounder or vertical pleiotropy. A high number could mean that PRISM
+                 dos not accurately model trait ", TRAIT))
+    MSD$Ori2[MSD$Ori == "Direct Effect" & MSD$PX >= ThreshSelectionPvalues ] <- "No Effect" #A variant cannot be direct if not PRISM sig
+    MSD$Ori[MSD$Ori == "Direct Effect" & MSD$PX >= ThreshSelectionPvalues ] <- "No Effect" #Same
 
 
     MSD <- MSD[,c("variant", "PX", "Ori", "Ori2")]

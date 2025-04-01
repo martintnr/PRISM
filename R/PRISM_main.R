@@ -38,7 +38,7 @@
 #'
 PRISM_main <- function(ListofTraits, ParametersTable, Index, sourceGWAS = getwd() ,NbCores = 1, gzip = F,
                           pU = 1e-05, ThreshSelectionPvalues = 5e-08/(length(ListofTraits)-1),
-                          keepIntermediateFiles = F,  Minimum_MAF = 0.05, skipPairwise = F, labelGWASsig = F){
+                          keepIntermediateFiles = F,  Minimum_MAF = 0.05, skipPairwise = F, labelGWASsig = F, Test = "Sign"){
 
 
   if(!file.exists("Pairwise/")){system("mkdir Pairwise")}
@@ -71,7 +71,7 @@ PRISM_main <- function(ListofTraits, ParametersTable, Index, sourceGWAS = getwd(
 
   message("Executing traitwise pipeline...")
 
-  Traitwise_pipeline(ListofTraits, ParametersTable, Index ,sourceGWAS, NbCores, gzip, pU, ThreshSelectionPvalues, labelGWASsig)
+  Traitwise_pipeline(ListofTraits, ParametersTable, Index ,sourceGWAS, NbCores, gzip, pU, ThreshSelectionPvalues, labelGWASsig, Test)
 
   message("Traitwise pipeline was successful")
 
