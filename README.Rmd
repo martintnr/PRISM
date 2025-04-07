@@ -71,20 +71,19 @@ Index <- fread("Data/Index.csv", header = T, sep = ",")
 ListofTraits <- unique(c(ParametersTable$X, ParametersTable$Y))
 
 PRISM_main(ListofTraits, ParametersTable, Index , sourceGWAS = "Data/",
-              NbCores = 1, gzip = F, keepIntermediateFiles = F, labelGWASsig = T)
+              NbCores = 1, gzip = F, keepIntermediateFiles = F, labelGWASsig = F)
 
 
 ```
 
-On a single core, `PRISM_main` is expected to complete execution within approximately 20 minutes. Upon completion, the Results/ directory will contain, for each trait, a file that includes variants, p-values from PRISM, and pleiotropy annotations. 
+On a single core, `PRISM_main` is expected to complete execution within approximately 25 minutes. Upon completion, the Results/ directory will contain, for each trait, a file that includes variants, p-values from PRISM, and pleiotropy annotations. 
 
-This example uses 15 traits for faster computation, which is underpowered for PRISM significance. Thus we set `labelGWASsig = T` to label all GWAS-significant variants.
 
 To visualize a result [example graph](https://github.com/martintnr/PRISM/blob/main/Example_graph_output.png):
 ```{r graph,  eval = FALSE}
 library(ggplot2)
 
-Graph <- Example_graph(ListofTraits, ParametersTable, Trait = "B4_1")
+Graph <- Example_graph(ListofTraits, ParametersTable, Trait = "A_3")
 
 print(Graph)
 ```
@@ -96,7 +95,7 @@ library(splitstackshape)
 library(visNetwork)
 library(shiny)
 
-Network <- Example_network(ListofTraits, ParametersTable, Variant = "1:5341323:G:A")
+Network <- Example_network(ListofTraits, ParametersTable, Variant = "1:852133:C:T")
 
 ```
 

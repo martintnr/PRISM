@@ -17,23 +17,9 @@ Example_network <- function(ListofTraits, Variant, ParametersTable, ThreshSelect
 
 
 
-  TraitDef <- data.frame(Category = c("A","B","B", "B", "B", "C","C", "C", "C", "D",
-                                      "E","E","E","E","E") ,
-                         phenotype = c("A", #Anciens traits triés
-                                         "B1",
-                                         "B2",
-                                         "B3",
-                                         "B4", #Our parangon
-                                         "C1",
-                                         "C2",
-                                         "C3",
-                                         "C4",
-                                         "D",
-                                         "E1",
-                                         "E2",
-                                         "E3",
-                                         "E4",
-                                         "E5"))
+  TraitDef <- data.frame(Category = rep(rev(c("A","B","B", "B", "B", "C","C", "C", "C", "D",
+                                              "E","E","E","E","E")), each = 4),
+                         phenotype = ListofTraits)
 
   TraitDef$description <- TraitDef$phenotype
 
@@ -89,7 +75,7 @@ Example_network <- function(ListofTraits, Variant, ParametersTable, ThreshSelect
           setnames(cbind.data.frame(PleioResultSub[, c("FullPleio", "Trait1", "PvalPRISM")], col = "#82992a"), c("from", "to", "value", "color"))
         )
         # Remove vertical edges that are confirmed by direct effects
-        EdgeVerif <- interaction(subset(VariantPleioResult, SynthPleio == "No supplementary info")[, c("variant", "Trait1")])
+        EdgeVerif <- interaction(subset(VariantPleioResult, SynthPleio == "Direct Effect")[, c("variant", "Trait1")])
         Edges <- Edges[ ! interaction(Edges[, c("from", "to")]) %in% EdgeVerif, ]
       }
       # Network effect
@@ -113,7 +99,7 @@ Example_network <- function(ListofTraits, Variant, ParametersTable, ThreshSelect
       if(length(cmd) > 0){
         cmd <- t(strsplit(cmd, split = ",")[[1]])
         colnames(cmd) <- c("variant", "PvalPRISM", "FullPleio", "SynthPleio")
-        return(cbind.data.frame(Trait1 = gsub("^(TopVariants_)(.+)(_.*\\.csv)$", "\\2", file), cmd))
+        return(cbind.data.frame(Trait1 = gsub("^(TopVariants_)(.+)(*\\.csv)$", "\\2", file), cmd))
       }
     }))
 
@@ -127,7 +113,7 @@ Example_network <- function(ListofTraits, Variant, ParametersTable, ThreshSelect
 
 
 
-    FullPleio$FullPleio <- gsub("^[UV]:", "", FullPleio$FullPleio)
+    FullPleio$FullPleio <- gsub("^[UVE]:", "", FullPleio$FullPleio)
     FullPleio <- data.frame(cSplit(FullPleio, splitCols = "FullPleio", sep = ":", direction = "long", type.convert = TRUE))
     FullPleio <- FullPleio[order(as.numeric(FullPleio$PvalPRISM), decreasing = T), ]
 
@@ -229,7 +215,7 @@ Example_network <- function(ListofTraits, Variant, ParametersTable, ThreshSelect
     )
 
 
-   print( shinyApp(ui = ui, server = server) )
+    print( shinyApp(ui = ui, server = server) )
 
     return(PleioNetEdgesDeconv)
   }
