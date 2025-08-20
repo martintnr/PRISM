@@ -256,8 +256,8 @@ PRISM_main(ListofTraits, ParametersTable, Index , sourceGWAS = sourceGWAS,
 ### [Pre-print](https://doi.org/10.1101/2024.06.01.24308193) results
 
 The results presented in our pre-print can be reproduced using LHC-MR
-results available [here](https://doi.org/10.5281/zenodo.13862821) and UK
+results available [here](https://doi.org/10.5281/zenodo.15074674) and UK
 Biobank GWAS round 2 summary statistics available
 [here](https://www.nealelab.is/uk-biobank). The full list of processed
 traits is provided in [Supplementary Table
-2](https://www.medrxiv.org/content/10.1101/2024.06.01.24308193v2.supplementary-material).
+2](https://www.medrxiv.org/content/10.1101/2024.06.01.24308193v3.supplementary-material).
